@@ -2,7 +2,7 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import registry, relationship
 
-from item import Item
+from items import Item
 
 mapper_registry = registry()
 
