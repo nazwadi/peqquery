@@ -7,7 +7,7 @@ mapper_registry = registry()
 
 @mapper_registry.mapped
 class Item:
-    __tablename__ = "item"
+    __tablename__ = "items"
 
     id = Column(mysql.INTEGER(display_width=11, unsigned=True),
                 nullable=False, primary_key=True, autoincrement="auto", default=0)
