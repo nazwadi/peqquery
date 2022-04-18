@@ -7,6 +7,9 @@ mapper_registry = registry()
 
 @mapper_registry.mapped
 class Account:
+    """
+    EQEMU Docs URL: https://docs.eqemu.io/schema/account/account/
+    """
     __tablename__ = "account"
 
     id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, autoincrement="auto")
@@ -29,24 +32,32 @@ class Account:
     ban_reason = Column(mysql.TEXT, nullable=True)
     suspend_reason = Column(mysql.TEXT, nullable=True)
 
-    account_flags = relationship("AccountFlags", back_populates="account_flags")
-    account_rewards = relationship("AccountRewards", back_populates="account_rewards")
-    sharedbank = relationship("SharedBank", back_populates="sharedbank")
-    bug_reports = relationship("BugReports", back_populates="bug_reports")
-    account_ip = relationship("AccountIP", back_populates="account_ip")
+    account_flags = relationship("AccountFlags", back_populates="account")
+    account_rewards = relationship("AccountRewards", back_populates="account")
+    sharedbank = relationship("SharedBank", back_populates="account")
+    bug_reports = relationship("BugReports", back_populates="account")
+    account_ip = relationship("AccountIP", back_populates="account")
 
 
 @mapper_registry.mapped
 class AccountFlags:
+    """
+    EQEMU Docs URL: https://docs.eqemu.io/schema/account/account_flags/
+    """
     __tablename__ = "account_flags"
     p_accid = Column(mysql.INTEGER(display_width=10, unsigned=True), ForeignKey('account.id'),
                      nullable=False, primary_key=True)
     p_flag = Column(mysql.VARCHAR(50), nullable=False, primary_key=True)
     p_value = Column(mysql.VARCHAR(80), nullable=False)
 
+    account = relationship("Account", back_populates="account_flags")
+
 
 @mapper_registry.mapped
 class AccountIP:
+    """
+    EQEMU Docs URL: https://docs.eqemu.io/schema/account/account_ip/
+    """
     __tablename__ = "account_ip"
     accid = Column(mysql.INTEGER(display_width=11), ForeignKey('account.id'),
                    nullable=False, primary_key=True, default=0)
@@ -54,9 +65,14 @@ class AccountIP:
     count = Column(mysql.INTEGER(display_width=11), nullable=False, default=1)
     lastused = Column(mysql.TIMESTAMP, nullable=False, default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
 
+    account = relationship("Account", back_populates="account_ip")
+
 
 @mapper_registry.mapped
 class AccountRewards:
+    """
+    EQEMU Docs URL: https://docs.eqemu.io/schema/account/account_rewards/
+    """
     __tablename__ = "account_rewards"
     account_id = Column(mysql.INTEGER(display_width=10, unsigned=True), ForeignKey('account.id'),
                         nullable=False, primary_key=True)
@@ -64,9 +80,14 @@ class AccountRewards:
                        nullable=False, primary_key=True)
     amount = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False)
 
+    account = relationship("Account", back_populates="account_rewards")
+
 
 @mapper_registry.mapped
 class SharedBank:
+    """
+    EQEMU Docs URL: https://docs.eqemu.io/schema/account/sharedbank/
+    """
     __tablename__ = "sharedbank"
     acctid = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey('account.id'),
                     nullable=True, primary_key=True, default=0)
@@ -80,3 +101,5 @@ class SharedBank:
     augslot5 = Column(mysql.MEDIUMINT(display_width=7, unsigned=True), nullable=False, default=0)
     augslot6 = Column(mysql.MEDIUMINT(display_width=7), nullable=False, default=0)
     custom_data = Column(mysql.TEXT, nullable=True)
+
+    account = relationship("Account", back_populates="sharedbank")

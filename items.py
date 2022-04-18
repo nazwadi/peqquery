@@ -7,6 +7,11 @@ mapper_registry = registry()
 
 @mapper_registry.mapped
 class Item:
+    """
+    EQEMU Docs URL: https://docs.eqemu.io/schema/items/items/
+
+    TODO: Relationship diagrams
+    """
     __tablename__ = "items"
 
     id = Column(mysql.INTEGER(display_width=11, unsigned=True),
