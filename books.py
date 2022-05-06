@@ -1,6 +1,6 @@
-from sqlalchemy import Column, ForeignKey, text
+from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import registry, relationship
+from sqlalchemy.orm import registry
 
 mapper_registry = registry()
 

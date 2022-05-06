@@ -1,6 +1,6 @@
-from sqlalchemy import Column, ForeignKey, text
+from sqlalchemy import Column, text
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import registry, relationship
+from sqlalchemy.orm import registry
 
 mapper_registry = registry()
 
@@ -149,7 +149,6 @@ class EventLog:
     time = Column(mysql.TIMESTAMP, nullable=False, default=text("CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"))
     descriptiontype = Column(mysql.TEXT, nullable=False)
     event_nid = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
-
 
 
 @mapper_registry.mapped
@@ -369,4 +368,3 @@ class VeteranRewardTemplates:
     item_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False)  # Item identifier: "items.id"
     charges = Column(mysql.SMALLINT(display_width=5, unsigned=True))
     reward_slot = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, primary_key=True)
-

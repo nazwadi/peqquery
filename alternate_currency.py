@@ -1,6 +1,6 @@
-from sqlalchemy import Column, ForeignKey, text
+from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import registry, relationship
+from sqlalchemy.orm import registry
 
 mapper_registry = registry()
 
@@ -13,4 +13,3 @@ class AlternateCurrency:
     __tablename__ = "alternate_currency"
     id = Column(mysql.INTEGER(display_width=10), nullable=False, primary_key=True)
     item_id = Column(mysql.INTEGER(display_width=10), nullable=False)
-
