@@ -165,6 +165,17 @@ class CharacterCorpseItems:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_corpse_items/
     """
     __tablename__ = "character_corpse_items"
+    corpse_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=None)
+    equip_slot = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=None)
+    item_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=None)
+    charges = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=None)
+    aug_1 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    aug_2 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    aug_3 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    aug_4 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    aug_5 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    aug_6 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    attuned = Column(mysql.SMALLINT(display_width=5), nullable=False, default=0)
 
 
 @mapper_registry.mapped
@@ -173,6 +184,55 @@ class CharacterCorpses:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_corpses/
     """
     __tablename__ = "character_corpses"
+    id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True,
+                default=None, auto_increment="auto")
+    charid = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    charname = Column(mysql.VARCHAR(64), nullable=False)
+    zone_id = Column(mysql.SMALLINT(display_width=5), nullable=False, unique=False, primary_key=True, default=0)
+    instance_id = Column(mysql.SMALLINT(display_width=5, unsigned=True), nullable=False,
+                         unique=False, primary_key=True, default=0)
+    x = Column(mysql.FLOAT, nullable=False, default=0)
+    y = Column(mysql.FLOAT, nullable=False, default=0)
+    z = Column(mysql.FLOAT, nullable=False, default=0)
+    heading = Column(mysql.FLOAT, nullable=False, default=0)
+    time_of_death = Column(mysql.DATETIME, nullable=False, default="0000-00-00 00:00:00")
+    guild_consent_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    is_rezzed = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=True, default=0)
+    is_buried = Column(mysql.TINYINT(display_width=3), nullable=False, default=0)
+    was_at_graveyard = Column(mysql.TINYINT(display_width=3), nullable=False, default=0)
+    is_locked = Column(mysql.TINYINT(display_width=11), nullable=True, default=0)
+    exp = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    size = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    level = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    race = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    gender = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    _class = Column("class", mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    deity = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    texture = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    helm_texture = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    copper = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    silver = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    gold = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    platinum = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    hair_color = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    beard_color = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    eye_color_1 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    eye_color_2 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    hair_style = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    face = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    beard = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    drakkin_heritage = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    drakkin_tattoo = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    drakkin_details = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    wc_1 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    wc_2 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    wc_3 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    wc_4 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    wc_5 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    wc_6 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    wc_7 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    wc_8 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    wc_9 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
 
 
 @mapper_registry.mapped
@@ -181,6 +241,23 @@ class CharacterCurrency:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_currency/
     """
     __tablename__ = "character_currency"
+    id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    platinum = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    gold = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    silver = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    copper = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    platinum_bank = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    gold_bank = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    silver_bank = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    copper_bank = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    platinum_cursor = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    gold_cursor = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    silver_cursor = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    copper_cursor = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    radiant_crystals = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    career_radiant_crystals = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    ebon_crystals = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    career_ebon_crystals = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
 
 
 @mapper_registry.mapped
@@ -189,6 +266,110 @@ class CharacterData:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_data/
     """
     __tablename__ = "character_data"
+    id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
+                primary_key=True, default=None, auto_increment="auto")
+    account_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, unique=False,
+                        primary_key=True, default=0)
+    name = Column(mysql.VARCHAR(64), nullable=False, unique=True)
+    last_name = Column(mysql.VARCHAR(64), nullable=False)
+    title = Column(mysql.VARCHAR(32), nullable=False)
+    suffix = Column(mysql.VARCHAR(32), nullable=False)
+    zone_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    zone_instance = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    y = Column(mysql.FLOAT, nullable=False, default=0)
+    x = Column(mysql.FLOAT, nullable=False, default=0)
+    z = Column(mysql.FLOAT, nullable=False, default=0)
+    heading = Column(mysql.FLOAT, nullable=False, default=0)
+    gender = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    race = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
+    _class = Column("class", mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    level = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    deity = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    birthday = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    last_login = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    time_played = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    level2 = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    anon = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    gm = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    face = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    hair_color = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    hair_style = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    beard = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    beard_color = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    eye_color_1 = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    eye_color_2 = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    drakkin_heritage = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    drakkin_tatoo = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    drakkin_details = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    ability_time_seconds = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    ability_number = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    ability_time_minutes = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    ability_time_hours = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    exp = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    aa_points_spent = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    aa_exp = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    aa_points = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    group_leadership_exp = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    raid_leadership_exp = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    group_leadership_points = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    raid_leadership_points = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    points = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    cur_hp = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    mana = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    endurance = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    intoxication = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    str = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    sta = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    cha = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    dex = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    int = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    agi = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    wis = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    zone_change_count = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    toxicity = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    hunger_level = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    thirst_level = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    ability_up = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    ldon_points_guk = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    ldon_points_mir = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    ldon_points_mmc = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    ldon_points_ruj = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    ldon_points_tak = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    ldon_points_available = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    tribute_time_remaining = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    career_tribute_points = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    tribute_points = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    tribute_active = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    pvp_status = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    pvp_kills = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    pvp_deaths = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    pvp_current_points = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    pvp_career_points = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    pvp_best_kill_streak = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    pvp_worst_death_streak = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    pvp_current_kill_streak = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    pvp2 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    pvp_type = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    show_helm = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    group_auto_consent = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    raid_auto_consent = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    guild_auto_consent = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    leadership_exp_on = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    RestTimer = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    air_remaining = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    autosplit_enabled = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    lfp = Column(mysql.TINYINT(display_width=1, unsigned=True), nullable=False, default=0)
+    lfg = Column(mysql.TINYINT(display_width=1, unsigned=True), nullable=False, default=0)
+    mailkey = Column(mysql.CHAR(16), nullable=False)
+    xtargets = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=5)
+    firstlogon = Column(mysql.TINYINT(display_width=3), nullable=False, default=0)
+    e_aa_effects = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    e_percent_to_aa = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    e_expended_aa_spent = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    aa_points_spent_old = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    aa_points_old = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    e_last_invsnapshot = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    deleted_at = Column(mysql.DATETIME, nullable=True, default=None)
 
 
 @mapper_registry.mapped
@@ -197,6 +378,9 @@ class CharacterDisciplines:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_disciplines/
     """
     __tablename__ = "character_disciplines"
+    id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    slot_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    disc_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
 
 @mapper_registry.mapped
@@ -205,6 +389,8 @@ class CharacterEnabledTasks:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_enabledtasks/
     """
     __tablename__ = "character_enabledtasks"
+    charid = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    taskid = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
 
 
 @mapper_registry.mapped
@@ -213,6 +399,10 @@ class CharacterExpModifiers:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_exp_modifiers/
     """
     __tablename__ = "character_exp_modifiers"
+    character_id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None)
+    zone_id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None)
+    aa_modifier = Column(mysql.FLOAT, nullable=False, default=None)
+    exp_modifier = Column(mysql.FLOAT, nullable=False, default=None)
 
 
 @mapper_registry.mapped
@@ -221,6 +411,15 @@ class CharacterExpeditionLockouts:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_expedition_lockouts/
     """
     __tablename__ = "character_expedition_lockouts"
+    id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
+                primary_key=True, default=None, auto_increment="auto")
+    character_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
+                          unique=False, primary_key=True, default=None)
+    expedition_name = Column(mysql.VARCHAR(128), nullable=False, default=None)
+    event_name = Column(mysql.VARCHAR(256), nullable=False, default=None)
+    expire_time = Column(mysql.DATETIME, nullable=False, default="CURRENT_TIMESTAMP")
+    duration = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=0)
+    from_expedition_uuid = Column(mysql.VARCHAR(36), nullable=False, default=None)
 
 
 @mapper_registry.mapped
@@ -229,6 +428,8 @@ class CharacterInspectMessages:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_inspect_messages/
     """
     __tablename__ = "character_inspect_messages"
+    id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    inspect_message = Column(mysql.VARCHAR(255), nullable=False)
 
 
 @mapper_registry.mapped
@@ -237,6 +438,16 @@ class CharacterInstanceSafereturns:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_instance_safereturns/
     """
     __tablename__ = "character_instance_safereturns"
+    id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
+                primary_key=True, default=None, auto_increment="auto")
+    character_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, unique=True, default=None)
+    instance_zone_id = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    instance_id = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    safe_zone_id = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    safe_x = Column(mysql.FLOAT, nullable=False, default=0)
+    safe_y = Column(mysql.FLOAT, nullable=False, default=0)
+    safe_z = Column(mysql.FLOAT, nullable=False, default=0)
+    safe_heading = Column(mysql.FLOAT, nullable=False, default=0)
 
 
 @mapper_registry.mapped
@@ -245,6 +456,9 @@ class CharacterItemRecast:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_item_recast/
     """
     __tablename__ = "character_item_recast"
+    id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    recast_type = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    timestamp = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
 
 
 @mapper_registry.mapped
@@ -253,6 +467,10 @@ class CharacterLanguages:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_languages/
     """
     __tablename__ = "character_languages"
+    id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
+                primary_key=True, default=None, auto_increment="auto")
+    lang_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    value = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
 
 @mapper_registry.mapped
@@ -261,6 +479,9 @@ class CharacterLeadershipAbilities:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_leadership_abilities/
     """
     __tablename__ = "character_leadership_abilities"
+    id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    slot = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    rank = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
 
 @mapper_registry.mapped
@@ -269,6 +490,14 @@ class CharacterMaterial:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_material/
     """
     __tablename__ = "character_material"
+    id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
+                primary_key=True, default=None, auto_increment="auto")
+    slot = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    blue = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    green = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    red = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    use_tint = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    color = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
 
 
 @mapper_registry.mapped
@@ -277,6 +506,9 @@ class CharacterMemmedSpells:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_memmed_spells/
     """
     __tablename__ = "character_memmed_spells"
+    id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    slot_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    spell_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
 
 @mapper_registry.mapped
@@ -285,6 +517,17 @@ class CharacterPetBuffs:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_pet_buffs/
     """
     __tablename__ = "character_pet_buffs"
+    char_id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None)
+    pet = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None)
+    slot = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None)
+    spell_id = Column(mysql.INTEGER(display_width=11), nullable=False, default=None)
+    caster_level = Column(mysql.TINYINT(display_width=4), nullable=False, default=0)
+    castername = Column(mysql.VARCHAR(64), nullable=False)
+    ticsremaining = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    counters = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    numhits = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    rune = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    instrument_mod = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=10)
 
 
 @mapper_registry.mapped
@@ -293,6 +536,15 @@ class CharacterPetInfo:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_pet_info/
     """
     __tablename__ = "character_pet_info"
+    char_id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None)
+    pet = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None)
+    petname = Column(mysql.VARCHAR(64), nullable=False)
+    petpower = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    spell_id = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    hp = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    mana = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    size = Column(mysql.FLOAT, nullable=False, default=0)
+    taunting = Column(mysql.TINYINT(display_width=1), nullable=False, default=1)
 
 
 @mapper_registry.mapped
@@ -301,6 +553,10 @@ class CharacterPetInventory:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_pet_inventory/
     """
     __tablename__ = "character_pet_inventory"
+    char_id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None)
+    pet = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None)
+    slot = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None)
+    item_id = Column(mysql.INTEGER(display_width=11), nullable=False, default=None)
 
 
 @mapper_registry.mapped
@@ -309,6 +565,10 @@ class CharacterPotionBelt:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_potionbelt/
     """
     __tablename__ = "character_potionbelt"
+    id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    potion_id = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    item_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    icon = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
 
 
 @mapper_registry.mapped
@@ -317,6 +577,10 @@ class CharacterSkills:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_skills/
     """
     __tablename__ = "character_skills"
+    id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
+                primary_key=True, default=None, auto_increment="auto")
+    skill_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    value = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
 
 @mapper_registry.mapped
@@ -325,6 +589,10 @@ class CharacterSpells:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_spells/
     """
     __tablename__ = "character_spells"
+    id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
+                primary_key=True, default=None, auto_increment="auto")
+    slot_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    spell_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
 
 @mapper_registry.mapped
@@ -333,6 +601,9 @@ class CharacterTasks:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_tasks/
     """
     __tablename__ = "character_tasks"
+    charid = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    taskid = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    slot = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
 
 
 @mapper_registry.mapped
@@ -341,6 +612,13 @@ class CharacterTaskTimers:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_task_timers/
     """
     __tablename__ = "character_task_timers"
+    id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    character_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
+                          unique=False, primary_key=True, default=0)
+    task_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
+                     unique=False, primary_key=True, default=0)
+    timer_type = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    expire_time = Column(mysql.DATETIME, nullable=False, default="CURRENT_TIMESTAMP")
 
 
 @mapper_registry.mapped
@@ -349,6 +627,10 @@ class CharacterTribute:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_tribute/
     """
     __tablename__ = "character_tribute"
+    id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, unique=False,
+                primary_key=True, default=0)
+    tier = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
+    tribute = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
 
 
 @mapper_registry.mapped
