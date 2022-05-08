@@ -612,7 +612,8 @@ class CharacterTaskTimers:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_task_timers/
     """
     __tablename__ = "character_task_timers"
-    id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
+                primary_key=True, default=None, auto_increment="auto")
     character_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
                           unique=False, primary_key=True, default=0)
     task_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
