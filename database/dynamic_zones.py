@@ -1,8 +1,6 @@
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import registry, relationship
-
-from database.items import Item
+from sqlalchemy.orm import registry
 
 mapper_registry = registry()
 
@@ -12,6 +10,7 @@ class DynamicZones:
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/dynamic-zones/dynamic_zones/
     """
+    __tablename__ = "dynamic_zones"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
                 primary_key=True, default=None, auto_increment="auto")
     instance_id = Column(mysql.INTEGER(display_width=10), nullable=False, unique=True, default=0)
@@ -42,6 +41,7 @@ class DynamicZoneMembers:
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/dynamic-zones/dynamic_zone_members/
     """
+    __tablename__ = "dynamic_zone_members"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
                 primary_key=True, default=None, auto_increment="auto")
     dynamic_zone_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
