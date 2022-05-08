@@ -1,5 +1,4 @@
-from sqlalchemy.orm import registry, relationship
+from sqlalchemy.orm import registry
 
 mapper_registry = registry()
 
-from .characters import CharacterLanguages
