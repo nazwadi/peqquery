@@ -7,7 +7,6 @@ ORM definitions are currently implemented for 40 of 47 categories in the databas
 ### TODO Definition Categories
 - [ ] npcs.py
 - [ ] query_server.py
-- [ ] spawns.py
 - [ ] bots.py
 - [ ] mercenaries.py
 - [ ] tools.py
