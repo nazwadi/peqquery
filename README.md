@@ -8,7 +8,6 @@ ORM definitions are currently implemented for 40 of 47 categories in the databas
 - [ ] npcs.py
 - [ ] query_server.py
 - [ ] spawns.py
-- [ ] spells.py
 - [ ] bots.py
 - [ ] mercenaries.py
 - [ ] tools.py
