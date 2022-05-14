@@ -12,20 +12,27 @@ class LDONTrapEntries:
     """
     __tablename__ = "ldon_trap_entries"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, primary_key=True, default=None)
+    """Unique LDoN Trap Entry Identifier"""
     trap_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, primary_key=True, default=0)
+    """Trap Identifier (see https://docs.eqemu.io/schema/traps/ldon_trap_templates/)"""
 
 
 @mapper_registry.mapped
-class LDONTrapEntries:
+class LDONTrapTemplates:
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/traps/ldon_trap_entries/
     """
     __tablename__ = "ldon_trap_templates"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, primary_key=True, default=None)
+    """Unique LDoN Trap Template Identifier"""
     type = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=1)
+    """Trap Type (see https://docs.eqemu.io/server/zones/trap-types)"""
     spell_id = Column(mysql.SMALLINT(display_width=5, unsigned=True), nullable=False, default=0)
+    """Spell Identifier (see https://docs.eqemu.io/schema/spells/spells_new/)"""
     skill = Column(mysql.SMALLINT(display_width=5, unsigned=True), nullable=False, default=0)
-    locked = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)  # 0 = False, 1 = True
+    """Skill (see https://docs.eqemu.io/server/player/skills)"""
+    locked = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    """Locked: 0 = False, 1 = True"""
 
 
 @mapper_registry.mapped

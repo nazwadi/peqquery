@@ -89,7 +89,7 @@ class SpawnEntry:
 
     spawngroup = relationship("SpawnGroup", back_populates="spawnentry", uselist=False)
     """Relationship Type: One-to-One, Local Key: spawngroupID, Relates to Table: spawngroup, Foreign Key: id"""
-    npc_type = relationship("NPCType", back_populates="spawnentry", uselist=False)
+    npc_types = relationship("NPCTypes", back_populates="spawnentry", uselist=False)
     """Relationship Type: One-to-One, Local Key: npcID, Relates to Table: npc_types, Foreign Key: id"""
 
 

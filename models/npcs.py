@@ -1,6 +1,11 @@
-from sqlalchemy import Column
+from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import registry, relationship
+
+from .factions import FactionList
+from .alternate_currency import AlternateCurrency
+from .merchants import MerchantList
+from .spawns import SpawnEntry
 
 mapper_registry = registry()
 
@@ -27,7 +32,7 @@ class NPCFaction:
     __tablename__ = "npc_faction"
     id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
     name = Column(mysql.TINYTEXT, nullable=True, default=None)
-    primaryfaction = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    primaryfaction = Column(mysql.INTEGER(display_width=11), ForeignKey(FactionList.id), nullable=False, default=0)
     ignore_primary_assist = Column(mysql.TINYINT(display_width=3), nullable=False, default=0)
 
     npc_faction_entries = relationship("NPCFactionEntries", back_populates="npc_faction")
@@ -40,11 +45,24 @@ class NPCFactionEntries:
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_faction_entries/
     """
     __tablename__ = "npc_faction_entries"
-    npc_faction_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
-    faction_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    npc_faction_id = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey(NPCFaction.id), primary_key=True,
+                            nullable=False, default=0)
+    """NPC Faction Identifier"""
+    faction_id = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey(FactionList.id), primary_key=True,
+                        nullable=False, default=0)
+    """Faction Identifier"""
     value = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    """Value"""
     npc_value = Column(mysql.TINYINT(display_width=3), nullable=False, default=0)
+    """NPC Value: -1 = Attack, 0 = Neutral, 1 = Assist"""
     temp = Column(mysql.TINYINT(display_width=3), nullable=False, default=0)
+    """
+    Temporary: 0 = Faction is permanent, player receives a message, 1 = Faction is temporary, player does not 
+    receive a message, 2 = Faction is temporary, player receives a message, 3 = Faction is permanent, but player does 
+    not receive a message.
+    """
+
+    npc_faction = relationship("NPCFaction", back_populates="npc_faction_entries")
 
 
 @mapper_registry.mapped
@@ -91,15 +109,31 @@ class NPCSpells:
     __tablename__ = "npc_spells"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
                 primary_key=True, default=None, autoincrement="auto")
+    """Unique NPC Spell Set Identifier"""
     name = Column(mysql.TINYTEXT, nullable=True, default=None)
+    """NPC Spell Set Name"""
     parent_list = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    """
+    Inherit all the spells from this list, and merge them with our spells.  Only one level of inheritance is allowed,
+    so your parent's parent will not be included.
+    """
     attack_proc = Column(mysql.SMALLINT(5), nullable=False, default=-1)
+    """
+    The combat proc that an NPC with this spell set will add to their list of procs.
+    Spell Identifier (see https://docs.eqemu.io/schema/spells/spells_new/)
+    """
     proc_chance = Column(mysql.TINYINT(display_width=3), nullable=False, default=3)
+    """Proc Chance: 0 = Never, 100 = Always"""
     range_proc = Column(mysql.SMALLINT(display_width=5), nullable=False, default=-1)
+    """The ranged proc that an NPC with this spell set will add to their list of procs."""
     rproc_chance = Column(mysql.SMALLINT(display_width=5), nullable=False, default=0)
+    """Ranged Proc Chance: 0 = Never, 100 = Always"""
     defensive_proc = Column(mysql.SMALLINT(display_width=5), nullable=False, default=-1)
+    """The defensive proc that an NPC with this spell set will add to their list of procs."""
     dproc_chance = Column(mysql.SMALLINT(display_width=5), nullable=False, default=0)
+    """Defensive Proc Chance: 0 = Never, 100 = Always"""
     fail_recast = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    """Fail Recast"""
     engaged_no_sp_recast_min = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
     engaged_no_sp_recast_max = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
     engaged_b_self_chance = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
@@ -137,14 +171,24 @@ class NPCSpellsEffectsEntries:
     __tablename__ = "npc_spells_effects_entries"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
                 primary_key=True, default=None, autoincrement="auto")
-    npc_spells_effects_id = Column(mysql.INTEGER(display_width=11), nullable=False,
+    """Unique Spell Effect Entry Identifier"""
+    npc_spells_effects_id = Column(mysql.INTEGER(display_width=11), ForeignKey(NPCSpellsEffects.id), nullable=False,
                                    unique=False, primary_key=True, default=0)
+    """NPC Spells Effects Identifier (see https://docs.eqemu.io/schema/npcs/npc_spells_effects/)"""
     spell_effect_id = Column(mysql.SMALLINT(display_width=5), nullable=False, default=0)
+    """Spell Effect Identifier (see https://docs.eqemu.io/server/spells/spell-effect-ids)"""
     minlevel = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    """Minimum Level"""
     maxlevel = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=255)
+    """Maximum Level"""
     se_base = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    """Spell Effect Base"""
     se_limit = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    """Spell Effect Limit"""
     se_max = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    """Spell Effect Maximum"""
+
+    npc_spells_effects = relationship("NPCSpellsEffects", back_populates="npc_spells_effects_entries")
 
 
 @mapper_registry.mapped
@@ -155,17 +199,69 @@ class NPCSpellsEntries:
     __tablename__ = "npc_spells_entries"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
                 primary_key=True, default=None, autoincrement="auto")
-    npc_spells_id = Column(mysql.INTEGER(display_width=11), nullable=False, unique=False, primary_key=True, default=0)
+    """Unique NPC Spell Entry Identifier"""
+    npc_spells_id = Column(mysql.INTEGER(display_width=11), ForeignKey(NPCSpells.id), nullable=False,
+                           unique=False, primary_key=True, default=0)
+    """Unique NPC Spell Set Identifier"""
     spellid = Column(mysql.SMALLINT(display_width=5, unsigned=True), nullable=False, default=0)
+    """Spell Identifier"""
     type = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=0)
+    """Spell Type Bitmask"""
     minlevel = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    """Minimum Level"""
     maxlevel = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=255)
+    """Maximum Level"""
     manacost = Column(mysql.SMALLINT(display_width=5), nullable=False, default=-1)
+    """Mana Cost"""
     recast_delay = Column(mysql.INTEGER(display_width=11), nullable=False, default=-1)
+    """Recast Delay"""
     priority = Column(mysql.SMALLINT(display_width=5), nullable=False, default=0)
+    """Priority: 0 = Innate, 1 = Highest Priority, 5 = Lower Priority, 10 = Even Lower Priority"""
     resist_adjust = Column(mysql.INTEGER(display_width=11), nullable=True, default=None)
+    """Resist Adjustment"""
     min_hp = Column(mysql.SMALLINT(display_width=5), nullable=True, default=0)
+    """Minimum Health Percentage"""
     max_hp = Column(mysql.SMALLINT(display_width=5), nullable=True, default=0)
+    """Maximum Health Percentage"""
+
+    npc_spells = relationship("NPCSpells", back_populates="npc_spells_entries")
+
+
+@mapper_registry.mapped
+class NPCTypesTint:
+    """
+    EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_types_tint/
+    """
+    __tablename__ = "npc_types_tint"
+    id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, primary_key=True, default=0)
+    tint_set_name = Column(mysql.TEXT, nullable=False, default=None)
+    red1h = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    grn1h = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    blu1h = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    red2c = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    grn2c = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    blu2c = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    red3a = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    grn3a = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    blu3a = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    red4b = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    grn4b = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    blu4b = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    red5g = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    grn5g = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    blu5g = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    red6l = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    grn6l = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    blu6l = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    red7f = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    grn7f = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    blu7f = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    red8x = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    grn8x = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    blu8x = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    red9x = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    grn9x = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    blu9x = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
 
 
 @mapper_registry.mapped
@@ -174,7 +270,8 @@ class NPCTypes:
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_types/
     """
     __tablename__ = "npc_types"
-    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
+    id = Column(mysql.INTEGER(display_width=11), ForeignKey(SpawnEntry.npcID), primary_key=True,
+                nullable=False, default=None, autoincrement="auto")
     name = Column(mysql.TEXT, nullable=False, default=None)
     lastname = Column(mysql.VARCHAR(32), nullable=True, default=None)
     level = Column(mysql.TINYINT(display_width=2, unsigned=True), nullable=False, default=0)
@@ -192,11 +289,15 @@ class NPCTypes:
     hp_regen_per_second = Column(mysql.BIGINT(display_width=11), nullable=True, default=0)
     mana_regen_rate = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
     loottable_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
-    merchant_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
-    alt_currency_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
-    npc_spells_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    merchant_id = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey(MerchantList.merchantid),
+                         nullable=False, default=0)
+    alt_currency_id = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey(AlternateCurrency.id),
+                             nullable=False, default=0)
+    npc_spells_id = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey(NPCSpells.id),
+                           nullable=False, default=0)
     npc_spells_effects_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
-    npc_faction_id = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    npc_faction_id = Column(mysql.INTEGER(display_width=11), ForeignKey(NPCFaction.id),
+                            nullable=False, default=0)
     adventure_template_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=0)
     trap_template = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=0)
     mindmg = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=0)
@@ -216,7 +317,8 @@ class NPCTypes:
     drakkin_heritage = Column(mysql.INTEGER(display_width=10), nullable=False, default=0)
     drakkin_tattoo = Column(mysql.INTEGER(display_width=10), nullable=False, default=0)
     drakkin_details = Column(mysql.INTEGER(display_width=10), nullable=False, default=0)
-    armortint_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=0)
+    armortint_id = Column(mysql.INTEGER(display_width=10, unsigned=True), ForeignKey(NPCTypesTint.id),
+                          nullable=False, default=0)
     armortint_red = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
     armortint_green = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
     armortint_blue = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
@@ -266,7 +368,8 @@ class NPCTypes:
     unique_spawn_by_name = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
     underwater = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
     isquest = Column(mysql.TINYINT(display_width=3), nullable=False, default=0)
-    emoteid = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=0)
+    emoteid = Column(mysql.INTEGER(display_width=10, unsigned=True), ForeignKey(NPCEmotes.emoteid),
+                     nullable=False, default=0)
     spellscale = Column(mysql.FLOAT, nullable=False, default=100)
     healscale = Column(mysql.FLOAT, nullable=False, default=100)
     no_target_hotkey = Column(mysql.TINYINT(display_width=1, unsigned=True), nullable=False, default=0)
@@ -299,50 +402,13 @@ class NPCTypes:
     always_aggro = Column(mysql.TINYINT(display_width=1), nullable=False, default=0)
     exp_mod = Column(mysql.INTEGER(display_width=11), nullable=False, default=100)
 
-    alternate_currency = relationship("AlternateCurrency", back_populates="npc_types", uselist=False)
-    merchantlist = relationship("MerchantList", back_populates="npc_types")
-    npc_faction = relationship("NPCFaction", back_populates="npc_types")
-    npc_spells = relationship("NPCSpells", back_populates="npc_types")
-    spawnentries = relationship("SpawnEntry", back_populates="npc_types")
+    alternate_currency = relationship(AlternateCurrency, uselist=False)
+    merchantlist = relationship(MerchantList)
+    npc_faction = relationship("NPCFaction")
+    npc_spells = relationship("NPCSpells")
+    spawnentries = relationship(SpawnEntry, back_populates="npc_types", uselist=False)
     npc_emotes = relationship("NPCEmotes", back_populates="npc_emotes")
     npc_types_tint = relationship("NPCTypesTint", back_populates="npc_types_tint", uselist=False)
-
-
-@mapper_registry.mapped
-class NPCTypesTint:
-    """
-    EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_types_tint/
-    """
-    __tablename__ = "npc_types_tint"
-    id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, primary_key=True, default=0)
-    tint_set_name = Column(mysql.TEXT, nullable=False, default=None)
-    red1h = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    grn1h = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    blu1h = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    red2c = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    grn2c = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    blu2c = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    red3a = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    grn3a = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    blu3a = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    red4b = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    grn4b = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    blu4b = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    red5g = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    grn5g = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    blu5g = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    red6l = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    grn6l = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    blu6l = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    red7f = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    grn7f = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    blu7f = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    red8x = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    grn8x = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    blu8x = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    red9x = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    grn9x = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    blu9x = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
 
 
 @mapper_registry.mapped

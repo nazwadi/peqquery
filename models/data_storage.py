@@ -12,7 +12,7 @@ class DataBuckets:
     """
     __tablename__ = "data_buckets"
     id = Column(mysql.BIGINT(display_width=11, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     key = Column(mysql.VARCHAR(100), nullable=True, unique=False, primary_key=True, default=None)
     value = Column(mysql.TEXT, nullable=True, default=None)
     expires = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
