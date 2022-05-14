@@ -1,6 +1,8 @@
-from sqlalchemy import Column
+from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import registry, relationship
+
+from .groups import GroupId
 
 mapper_registry = registry()
 
@@ -26,15 +28,26 @@ class RaidLeaders:
     EQEMU Docs URL: https://docs.eqemu.io/schema/raids/raid_leaders/
     """
     __tablename__ = "raid_leaders"
-    gid = Column(mysql.INTEGER(display_width=4, unsigned=True), nullable=False, default=None)
-    rid = Column(mysql.INTEGER(display_width=4, unsigned=True), nullable=False, default=None)
+    gid = Column(mysql.INTEGER(display_width=4, unsigned=True),
+                 ForeignKey(GroupId.groupid), primary_key=True, nullable=False, default=None)
+    """Group Identifier (see https://docs.eqemu.io/schema/groups/group_id/); Primary Key not set in actual SQL"""
+    rid = Column(mysql.INTEGER(display_width=4, unsigned=True),
+                 ForeignKey(RaidDetails.raidid), primary_key=True, nullable=False, default=None)
+    """Raid Identifier (see https://docs.eqemu.io/schema/raids/raid_details/); Primary Key not set in actual SQL"""
     marknpc = Column(mysql.VARCHAR(64), nullable=False, default=None)
+    """Mark NPC: 0 = False, 1 = True"""
     maintank = Column(mysql.VARCHAR(64), nullable=False, default=None)
+    """Main Tank: 0 = False, 1 = True"""
     assist = Column(mysql.VARCHAR(64), nullable=False, default=None)
+    """Assist: 0 = False, 1 = True"""
     puller = Column(mysql.VARCHAR(64), nullable=False, default=None)
+    """Puller: 0 = False, 1 = True"""
     leadershipaa = Column(mysql.TINYBLOB, nullable=False, default=None)
+    """Leadership AA"""
     mentoree = Column(mysql.VARCHAR(64), nullable=False, default=None)
+    """Mentoree: 0 = False, 1 = True"""
     mentor_percent = Column(mysql.INTEGER(display_width=4), nullable=False, default=0)
+    """Mentor Percent: 0 = None, 100 = Max"""
 
 
 @mapper_registry.mapped
