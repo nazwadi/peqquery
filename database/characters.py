@@ -1,6 +1,8 @@
-from sqlalchemy import Column
+from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import registry
+
+from .items import Item
 
 mapper_registry = registry()
 
@@ -122,7 +124,7 @@ class CharacterBind:
     """
     __tablename__ = "character_bind"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True,
-                default=None, auto_increment="auto")
+                default=None, autoincrement="auto")
     slot = Column(mysql.INTEGER(display_width=4), nullable=False, primary_key=True, default=0)
     zone_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
     instance_id = Column(mysql.MEDIUMINT(display_width=11, unsigned=True), nullable=False, default=0)
@@ -185,7 +187,7 @@ class CharacterCorpses:
     """
     __tablename__ = "character_corpses"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True,
-                default=None, auto_increment="auto")
+                default=None, autoincrement="auto")
     charid = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
     charname = Column(mysql.VARCHAR(64), nullable=False)
     zone_id = Column(mysql.SMALLINT(display_width=5), nullable=False, unique=False, primary_key=True, default=0)
@@ -267,7 +269,7 @@ class CharacterData:
     """
     __tablename__ = "character_data"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     account_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, unique=False,
                         primary_key=True, default=0)
     name = Column(mysql.VARCHAR(64), nullable=False, unique=True)
@@ -412,7 +414,7 @@ class CharacterExpeditionLockouts:
     """
     __tablename__ = "character_expedition_lockouts"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     character_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
                           unique=False, primary_key=True, default=None)
     expedition_name = Column(mysql.VARCHAR(128), nullable=False, default=None)
@@ -439,7 +441,7 @@ class CharacterInstanceSafereturns:
     """
     __tablename__ = "character_instance_safereturns"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     character_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, unique=True, default=None)
     instance_zone_id = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
     instance_id = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
@@ -468,7 +470,7 @@ class CharacterLanguages:
     """
     __tablename__ = "character_languages"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     lang_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
     value = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
@@ -491,7 +493,7 @@ class CharacterMaterial:
     """
     __tablename__ = "character_material"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     slot = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
     blue = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
     green = Column(mysql.TINYINT(display_width=11, unsigned=True), nullable=False, default=0)
@@ -578,7 +580,7 @@ class CharacterSkills:
     """
     __tablename__ = "character_skills"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     skill_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
     value = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
@@ -590,7 +592,7 @@ class CharacterSpells:
     """
     __tablename__ = "character_spells"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     slot_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
     spell_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
@@ -613,7 +615,7 @@ class CharacterTaskTimers:
     """
     __tablename__ = "character_task_timers"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     character_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
                           unique=False, primary_key=True, default=0)
     task_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
@@ -651,8 +653,12 @@ class Keyring:
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/keyring/
     """
     __tablename__ = "keyring"
-    char_id = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
-    item_id = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    char_id = Column(mysql.INTEGER(display_width=11), ForeignKey(CharacterData.id),
+                     primary_key=True, nullable=False, default=0)
+    """Primary Key is not actually defined in sql"""
+    item_id = Column(mysql.INTEGER(display_width=11), ForeignKey(Item.id),
+                     primary_key=True, nullable=False, default=0)
+    """Primary Key is not actually defined in sql"""
 
 
 @mapper_registry.mapped
@@ -679,7 +685,7 @@ class Mail:
     """
     __tablename__ = "mail"
     msgid = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, primary_key=True,
-                   default=None, auto_increment="auto")
+                   default=None, autoincrement="auto")
     charid = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, unique=False,
                     primary_key=True, default=0)
     timestamp = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
@@ -697,6 +703,6 @@ class PlayerTitlesets:
     """
     __tablename__ = "player_titlesets"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True,
-                default=None, auto_increment="auto")
+                default=None, autoincrement="auto")
     char_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=None)
     title_set = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=None)

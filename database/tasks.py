@@ -108,7 +108,7 @@ class SharedTasks:
     EQEMU Docs URL: https://docs.eqemu.io/schema/tasks/shared_tasks/
     """
     __tablename__ = "shared_tasks"
-    id = Column(mysql.BIGINT(display_width=20), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    id = Column(mysql.BIGINT(display_width=20), nullable=False, primary_key=True, default=None, autoincrement="auto")
     task_id = Column(mysql.INTEGER(display_width=11), nullable=True, default=None)
     accepted_time = Column(mysql.DATETIME, nullable=True, default=None)
     expire_time = Column(mysql.DATETIME, nullable=True, default=None)

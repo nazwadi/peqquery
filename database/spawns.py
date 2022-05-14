@@ -27,7 +27,7 @@ class Spawn2:
     EQEMU Docs URL: https://docs.eqemu.io/schema/spawns/spawn2/
     """
     __tablename__ = "spawn2"
-    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
     """Unique Spawn2 Entry Identifier"""
     spawngroupID = Column(mysql.INTEGER(display_width=11), nullable=False, unique=False, primary_key=True, default=0)
     """Unique Spawngroup Identifier (see https://docs.eqemu.io/schema/spawns/spawngroup/)"""
@@ -99,9 +99,9 @@ class SpawnGroup:
     EQEMU Docs URL: https://docs.eqemu.io/schema/spawns/spawngroup/
     """
     __tablename__ = "spawngroup"
-    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
     """Unique Spawn Group Identifier"""
-    name = Column(mysql.VARCHAR(display_width=50), nullable=False, unique=True)
+    name = Column(mysql.VARCHAR(50), nullable=False, unique=True)
     """Name"""
     spawn_limit = Column(mysql.TINYINT(display_width=4), nullable=False, default=0)
     """Spawn Limit"""
@@ -170,7 +170,7 @@ class SpawnEvents:
     """
     __tablename__ = "spawn_events"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     """Unique Spawn Event Entry Identifier"""
     zone = Column(mysql.VARCHAR(32), nullable=True, default=None)
     """Zone Short Name (see https://docs.eqemu.io/server/zones/zone-list)"""

@@ -27,7 +27,8 @@ class LoginApiTokens:
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/loginserver/login_api_tokens/
     """
-    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    __tablename__ = "login_api_tokens"
+    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
     token = Column(mysql.VARCHAR(200), nullable=True, default=None)
     can_write = Column(mysql.INTEGER(display_width=11), nullable=True, default=0)
     can_read = Column(mysql.INTEGER(display_width=11), nullable=True, default=0)
@@ -40,9 +41,10 @@ class LoginServerAdmins:
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/loginserver/login_server_admins/
     """
+    __tablename__ = "login_server_admins"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
-    account_name = Column(mysql.VARCHAR(display_width=30), nullable=False, default=None)
+                primary_key=True, default=None, autoincrement="auto")
+    account_name = Column(mysql.VARCHAR(30), nullable=False, default=None)
     account_password = Column(mysql.VARCHAR(255), nullable=False, default=None)
     first_name = Column(mysql.VARCHAR(50), nullable=False, default=None)
     last_name = Column(mysql.VARCHAR(50), nullable=False, default=None)
@@ -56,8 +58,9 @@ class LoginWorldServers:
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/loginserver/login_world_servers/
     """
+    __tablename__ = "login_world_servers"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     long_name = Column(mysql.VARCHAR(100), nullable=False, default=None)
     short_name = Column(mysql.VARCHAR(100), nullable=False, default=None)
     tag_description = Column(mysql.VARCHAR(50), nullable=False)

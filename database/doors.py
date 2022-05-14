@@ -17,7 +17,7 @@ class Doors:
         | One-to-One        | zone      | zone              | short_name  |
     """
     __tablename__ = "doors"
-    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
     doorid = Column(mysql.SMALLINT(display_width=4), nullable=False, default=0)
     zone = Column(mysql.VARCHAR(32), nullable=True, unique=False, primary_key=True, default=None)
     version = Column(mysql.SMALLINT(display_width=5), nullable=False, default=0)

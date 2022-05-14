@@ -11,7 +11,7 @@ class InstanceList:
     EQEMU Docs URL: https://docs.eqemu.io/schema/instances/instance_list/
     """
     __tablename__ = "instance_list"
-    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
     zone = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
     version = Column(mysql.TINYINT(display_width=4, unsigned=True), nullable=False, default=0)
     is_global = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)  # 0 = False, 1 = True

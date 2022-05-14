@@ -11,7 +11,7 @@ class ServerScheduledEvents:
     EQEMU Docs URL: https://docs.eqemu.io/schema/scheduler/server_scheduled_events/
     """
     __tablename__ = "server_scheduled_events"
-    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
     description = Column(mysql.VARCHAR(255), nullable=True, default=None)
     event_type = Column(mysql.VARCHAR(100), nullable=True, default=None)
     event_data = Column(mysql.TEXT, nullable=True, default=None)

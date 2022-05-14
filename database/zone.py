@@ -163,6 +163,6 @@ class ZonePoints:
     max_expansion = Column(mysql.TINYINT(display_width=4, unsigned=True), nullable=False, default=0)
     content_flags = Column(mysql.VARCHAR(100), nullable=True, default=None)
     content_flags_disabled = Column(mysql.VARCHAR(100), nullable=True, default=None)
-    is_virtual = Column(mysql.TINYINT(display_width=4, nullable=True, default=0))
+    is_virtual = Column(mysql.TINYINT(display_width=4), nullable=True, default=0)
     height = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
     width = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)

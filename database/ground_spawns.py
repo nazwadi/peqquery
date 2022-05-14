@@ -12,7 +12,7 @@ class GroundSpawns:
     """
     __tablename__ = "ground_spawns"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     zoneid = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
                     unique=False, primary_key=True, default=0)
     version = Column(mysql.SMALLINT(display_width=5), nullable=False, default=0)

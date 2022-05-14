@@ -12,7 +12,7 @@ class DynamicZones:
     """
     __tablename__ = "dynamic_zones"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     instance_id = Column(mysql.INTEGER(display_width=10), nullable=False, unique=True, default=0)
     type = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
     uuid = Column(mysql.VARCHAR(36), nullable=False, default=None)
@@ -43,7 +43,7 @@ class DynamicZoneMembers:
     """
     __tablename__ = "dynamic_zone_members"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     dynamic_zone_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
                              unique=False, primary_key=True, default=0)
     character_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,

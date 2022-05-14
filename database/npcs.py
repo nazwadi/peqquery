@@ -11,12 +11,12 @@ class NPCEmotes:
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_emotes/
     """
     __tablename__ = "npc_emotes"
-    id = Column(mysql.INTEGER(display_width=10), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    id = Column(mysql.INTEGER(display_width=10), nullable=False, primary_key=True, default=None, autoincrement="auto")
     emoteid = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
                      unique=False, primary_key=True, default=0)
     event_ = Column(mysql.TINYINT(display_width=3), nullable=False, default=0)
     type = Column(mysql.TINYINT(display_width=3), nullable=False, default=0)
-    text = Column(mysql.VARCHAR(display_width=512), nullable=False, default=None)
+    text = Column(mysql.VARCHAR(512), nullable=False, default=None)
 
 
 @mapper_registry.mapped
@@ -25,7 +25,7 @@ class NPCFaction:
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_faction/
     """
     __tablename__ = "npc_faction"
-    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
     name = Column(mysql.TINYTEXT, nullable=True, default=None)
     primaryfaction = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
     ignore_primary_assist = Column(mysql.TINYINT(display_width=3), nullable=False, default=0)
@@ -90,7 +90,7 @@ class NPCSpells:
     """
     __tablename__ = "npc_spells"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     name = Column(mysql.TINYTEXT, nullable=True, default=None)
     parent_list = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
     attack_proc = Column(mysql.SMALLINT(5), nullable=False, default=-1)
@@ -122,7 +122,7 @@ class NPCSpellsEffects:
     """
     __tablename__ = "npc_spells_effects"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     name = Column(mysql.TINYTEXT, nullable=True, default=None)
     parent_list = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
 
@@ -136,9 +136,9 @@ class NPCSpellsEffectsEntries:
     """
     __tablename__ = "npc_spells_effects_entries"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
-    npc_spells_effects_id = Column(mysql.INTEGER(display_width=11, nullable=False,
-                                                 unique=False, primary_key=True, default=0))
+                primary_key=True, default=None, autoincrement="auto")
+    npc_spells_effects_id = Column(mysql.INTEGER(display_width=11), nullable=False,
+                                   unique=False, primary_key=True, default=0)
     spell_effect_id = Column(mysql.SMALLINT(display_width=5), nullable=False, default=0)
     minlevel = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
     maxlevel = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=255)
@@ -154,7 +154,7 @@ class NPCSpellsEntries:
     """
     __tablename__ = "npc_spells_entries"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False,
-                primary_key=True, default=None, auto_increment="auto")
+                primary_key=True, default=None, autoincrement="auto")
     npc_spells_id = Column(mysql.INTEGER(display_width=11), nullable=False, unique=False, primary_key=True, default=0)
     spellid = Column(mysql.SMALLINT(display_width=5, unsigned=True), nullable=False, default=0)
     type = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=0)
@@ -174,7 +174,7 @@ class NPCTypes:
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_types/
     """
     __tablename__ = "npc_types"
-    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
     name = Column(mysql.TEXT, nullable=False, default=None)
     lastname = Column(mysql.VARCHAR(32), nullable=True, default=None)
     level = Column(mysql.TINYINT(display_width=2, unsigned=True), nullable=False, default=0)
@@ -289,7 +289,7 @@ class NPCTypes:
     charm_max_dmg = Column(mysql.INTEGER(display_width=10), nullable=True, default=0)
     charm_attack_delay = Column(mysql.TINYINT(display_width=3), nullable=True, default=0)
     charm_accuracy_rating = Column(mysql.MEDIUMINT(display_width=9), nullable=True, default=0)
-    charm_avoidance_rating = Column(mysql.MEDIUMINT(display_width=9), nnullable=True, default=0)
+    charm_avoidance_rating = Column(mysql.MEDIUMINT(display_width=9), nullable=True, default=0)
     charm_atk = Column(mysql.MEDIUMINT(display_width=9), nullable=True, default=0)
     skip_global_loot = Column(mysql.TINYINT(display_width=4), nullable=True, default=0)
     rare_spawn = Column(mysql.TINYINT(display_width=4), nullable=True, default=0)

@@ -11,7 +11,7 @@ class Guilds:
     EQEMU Docs URL: https://docs.eqemu.io/schema/guilds/guilds/
     """
     __tablename__ = "guilds"
-    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
     name = Column(mysql.VARCHAR(32), nullable=False, unique=True)
     leader = Column(mysql.INTEGER(display_width=11), nullable=False, unique=True, default=0)
     minstatus = Column(mysql.SMALLINT(display_width=5), nullable=False, default=0)

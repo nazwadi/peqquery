@@ -34,7 +34,7 @@ class Traps:
     EQEMU Docs URL: https://docs.eqemu.io/schema/traps/traps/
     """
     __tablename__ = "traps"
-    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
     zone = Column(mysql.VARCHAR(16), nullable=False, unique=False, primary_key=True)
     version = Column(mysql.SMALLINT(display_width=5, unsigned=True), nullable=False, default=0)
     x = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)

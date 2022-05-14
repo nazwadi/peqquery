@@ -105,7 +105,8 @@ class DBVersion:
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/db_version/
     """
     __tablename__ = "db_version"
-    version = Column(mysql.INTEGER(display_width=11), nullable=True, default=0)
+    version = Column(mysql.INTEGER(display_width=11), primary_key=True, nullable=True, default=0)
+    """Primary Key is not actually defined in SQL"""
 
 
 @mapper_registry.mapped
@@ -126,12 +127,18 @@ class EQTime:
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/eqtime/
     """
     __tablename__ = "eqtime"
-    minute = Column(mysql.TINYINT(display_width=4), nullable=False, default=0)
-    hour = Column(mysql.TINYINT(display_width=4), nullable=False, default=0)
-    day = Column(mysql.TINYINT(display_width=4), nullable=False, default=0)
-    month = Column(mysql.TINYINT(display_width=4), nullable=False, default=0)
-    year = Column(mysql.INTEGER(display_width=4), nullable=False, default=0)
-    realtime = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    minute = Column(mysql.TINYINT(display_width=4), primary_key=True, nullable=False, default=0)
+    """Primary Key is not actually defined in SQL"""
+    hour = Column(mysql.TINYINT(display_width=4), primary_key=True, nullable=False, default=0)
+    """Primary Key is not actually defined in SQL"""
+    day = Column(mysql.TINYINT(display_width=4), primary_key=True, nullable=False, default=0)
+    """Primary Key is not actually defined in SQL"""
+    month = Column(mysql.TINYINT(display_width=4), primary_key=True, nullable=False, default=0)
+    """Primary Key is not actually defined in SQL"""
+    year = Column(mysql.INTEGER(display_width=4), primary_key=True, nullable=False, default=0)
+    """Primary Key is not actually defined in SQL"""
+    realtime = Column(mysql.INTEGER(display_width=11), primary_key=True, nullable=False, default=0)
+    """Primary Key is not actually defined in SQL"""
 
 
 @mapper_registry.mapped
@@ -266,7 +273,8 @@ class ProfanityList:
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/profanity_list/
     """
     __tablename__ = "profanity_list"
-    word = Column(mysql.VARCHAR(16), nullable=False)
+    word = Column(mysql.VARCHAR(16), primary_key=True, nullable=False)
+    """Primary Key is not actually defined in SQL"""
 
 
 @mapper_registry.mapped

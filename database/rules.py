@@ -12,7 +12,7 @@ class RuleSets:
     """
     __tablename__ = "rule_sets"
     ruleset_id = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False,
-                        primary_key=True, default=None, auto_increment="auto")
+                        primary_key=True, default=None, autoincrement="auto")
     name = Column(mysql.VARCHAR(255), nullable=False)
 
     rule_values = relationship("RuleValues", back_populates="rule_sets")

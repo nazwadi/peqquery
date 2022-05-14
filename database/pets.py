@@ -11,7 +11,7 @@ class Pets:
     EQEMU Docs URL: https://docs.eqemu.io/schema/pets/pets/
     """
     __tablename__ = "pets"
-    id = Column(mysql.INTEGER(display_width=20), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    id = Column(mysql.INTEGER(display_width=20), nullable=False, primary_key=True, default=None, autoincrement="auto")
     type = Column(mysql.VARCHAR(64), nullable=False, unique=False, primary_key=True)
     petpower = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
     npcID = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
@@ -35,7 +35,7 @@ class PetsBeastlordData:
     texture = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
     helm_texture = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
     gender = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=2)
-    size_modifier = Column(mysql.FLOAT, unsigned=True, nullable=True, default=1)
+    size_modifier = Column(mysql.FLOAT(unsigned=True), nullable=True, default=1)
     face = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
 
 

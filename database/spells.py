@@ -47,7 +47,7 @@ class BlockedSpells:
     EQEMU Docs URL: https://docs.eqemu.io/schema/spells/blocked_spells/
     """
     __tablename__ = "blocked_spells"
-    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, auto_increment="auto")
+    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
     """Unique Blocked Spells Identifier"""
     spellid = Column(mysql.MEDIUMINT(display_width=8, unsigned=True), nullable=False, default=0)
     """Spell Identifier"""
