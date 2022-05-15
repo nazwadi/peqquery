@@ -1,44 +1,9 @@
-from sqlalchemy import Column
+from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import registry, relationship
+from sqlalchemy.orm import relationship
 
-mapper_registry = registry()
-
-
-@mapper_registry.mapped
-class Auras:
-    """
-    EQEMU Docs URL: https://docs.eqemu.io/schema/spells/auras/
-    """
-    __tablename__ = "auras"
-    type = Column(mysql.INTEGER(display_width=10), nullable=False, primary_key=True, default=None)
-    """Unique Aura Identifier"""
-    npc_type = Column(mysql.INTEGER(display_width=10), nullable=False, default=None)
-    """NPC Type Identifier (see https://docs.eqemu.io/schema/npcs/npc_types/)"""
-    name = Column(mysql.VARCHAR(64), nullable=False, default=None)
-    """Name"""
-    spell_id = Column(mysql.INTEGER(display_width=10), nullable=False, default=None)
-    """Spell Identifier (see https://docs.eqemu.io/schema/spells/spells_new/)"""
-    distance = Column(mysql.INTEGER(display_width=10), nullable=False, default=60)
-    """Distance"""
-    aura_type = Column(mysql.INTEGER(display_width=10), nullable=False, default=1)
-    """Aura Type (see https://docs.eqemu.io/server/spells/aura-types)"""
-    spawn_type = Column(mysql.INTEGER(display_width=10), nullable=False, default=0)
-    """Aura Spawn Type (see https://docs.eqemu.io/server/spells/aura-spawn-types)"""
-    movement = Column(mysql.INTEGER(display_width=10), nullable=False, default=0)
-    """Aura Movement Type (see https://docs.eqemu.io/server/spells/aura-movement-types)"""
-    duration = Column(mysql.INTEGER(display_width=10), nullable=False, default=5400)
-    """Duration"""
-    icon = Column(mysql.INTEGER(display_width=10), nullable=False, default=-1)
-    """Icon"""
-    cast_time = Column(mysql.INTEGER(display_width=10), nullable=False, default=0)
-    """Cast Time"""
-
-    npc_types = relationship("NPCTypes", back_populates="auras", uselist=False)
-    """Relationship Type: One-to-One, Local Key: npc_type, Relates to Table: npc_types, Foreign Key: id"""
-
-    spells_new = relationship("SpellsNew", back_populates="auras", uselist=False)
-    """Relationship Type: One-to-One, Local Key: spell_id, Relates to Table: spells_new, Foreign Key: id"""
+from meta import mapper_registry
+from .npcs import NPCTypes
 
 
 @mapper_registry.mapped
@@ -363,3 +328,39 @@ class SpellsNew:
     spell_buckets = relationship("SpellBuckets", back_populates="spells_new")
     spell_globals = relationship("SpellGlobals", back_populates="spells_new")
     blocked_spells = relationship("BlockedSpells", back_populates="spells_new")
+
+
+@mapper_registry.mapped
+class Auras:
+    """
+    EQEMU Docs URL: https://docs.eqemu.io/schema/spells/auras/
+    """
+    __tablename__ = "auras"
+    type = Column(mysql.INTEGER(display_width=10), nullable=False, primary_key=True, default=None)
+    """Unique Aura Identifier"""
+    npc_type = Column(mysql.INTEGER(display_width=10), ForeignKey(NPCTypes.id),
+                      nullable=False, default=None)
+    """NPC Type Identifier (see https://docs.eqemu.io/schema/npcs/npc_types/)"""
+    name = Column(mysql.VARCHAR(64), nullable=False, default=None)
+    """Name"""
+    spell_id = Column(mysql.INTEGER(display_width=10), ForeignKey(SpellsNew.id), nullable=False, default=None)
+    """Spell Identifier (see https://docs.eqemu.io/schema/spells/spells_new/)"""
+    distance = Column(mysql.INTEGER(display_width=10), nullable=False, default=60)
+    """Distance"""
+    aura_type = Column(mysql.INTEGER(display_width=10), nullable=False, default=1)
+    """Aura Type (see https://docs.eqemu.io/server/spells/aura-types)"""
+    spawn_type = Column(mysql.INTEGER(display_width=10), nullable=False, default=0)
+    """Aura Spawn Type (see https://docs.eqemu.io/server/spells/aura-spawn-types)"""
+    movement = Column(mysql.INTEGER(display_width=10), nullable=False, default=0)
+    """Aura Movement Type (see https://docs.eqemu.io/server/spells/aura-movement-types)"""
+    duration = Column(mysql.INTEGER(display_width=10), nullable=False, default=5400)
+    """Duration"""
+    icon = Column(mysql.INTEGER(display_width=10), nullable=False, default=-1)
+    """Icon"""
+    cast_time = Column(mysql.INTEGER(display_width=10), nullable=False, default=0)
+    """Cast Time"""
+
+    npc_types = relationship("NPCTypes", back_populates="auras", uselist=False)
+    """Relationship Type: One-to-One, Local Key: npc_type, Relates to Table: npc_types, Foreign Key: id"""
+    spells_new = relationship("SpellsNew", back_populates="auras", uselist=False)
+    """Relationship Type: One-to-One, Local Key: spell_id, Relates to Table: spells_new, Foreign Key: id"""

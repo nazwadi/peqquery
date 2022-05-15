@@ -1,13 +1,12 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import registry, relationship
+from sqlalchemy.orm import relationship
 
+from meta import mapper_registry
 from .factions import FactionList
 from .alternate_currency import AlternateCurrency
 from .merchants import MerchantList
 from .spawns import SpawnEntry
-
-mapper_registry = registry()
 
 
 @mapper_registry.mapped

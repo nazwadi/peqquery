@@ -1,8 +1,10 @@
-from sqlalchemy import Column, text
+from sqlalchemy import Column, ForeignKey, text
+from sqlalchemy.orm import relationship
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import registry
 
-mapper_registry = registry()
+from meta import mapper_registry
+from .account import Account
+from .items import Items
 
 
 @mapper_registry.mapped
@@ -22,37 +24,72 @@ class BugReports:
     """
     __tablename__ = "bug_reports"
     id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, primary_key=True, autoincrement="auto")
+    """Unique Bug Report Identifier"""
     zone = Column(mysql.VARCHAR(32), nullable=True, default="Unknown")
+    """Zone Short Name (see https://docs.eqemu.io/server/zones/zone-list)"""
     client_version_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    """Client Version Identifier (see https://docs.eqemu.io/server/player/client-version-bitmasks)"""
     client_version_name = Column(mysql.VARCHAR(24), nullable=False, default="Unknown")
-    account_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    """Client Version Name (see https://docs.eqemu.io/server/player/client-version-bitmasks)"""
+    account_id = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey(Account.id),
+                        nullable=False, default=0)
+    """Account Identifier (see https://docs.eqemu.io/schema/account/account/)"""
     character_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    """Character Identifier (see https://docs.eqemu.io/schema/characters/character_data/)"""
     character_name = Column(mysql.VARCHAR(64), nullable=False, default="Unknown")
+    """Character Name (see https://docs.eqemu.io/schema/characters/character_data/)"""
     reporter_spoof = Column(mysql.TINYINT(1), nullable=False, default=1)
+    """Reporter Spoof"""
     category_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    """Category Identifier"""
     category_name = Column(mysql.VARCHAR(64), nullable=False, default="Other")
+    """Category Name"""
     reporter_name = Column(mysql.VARCHAR(64), nullable=False, default="Unknown")
+    """Reporter Name"""
     ui_path = Column(mysql.VARCHAR(128), nullable=False, default="Unknown")
+    """UI Path"""
     pos_x = Column(mysql.FLOAT, nullable=False, default=0)
+    """Position X Coordinate"""
     pos_y = Column(mysql.FLOAT, nullable=False, default=0)
+    """Position Y Coordinate"""
     pos_z = Column(mysql.FLOAT, nullable=False, default=0)
+    """Position Z Coordinate"""
     heading = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    """Heading Coordinate"""
     time_played = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    """Time Played in Seconds"""
     target_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    """Target Identifier"""
     target_name = Column(mysql.VARCHAR(64), nullable=False, default="Unknown")
+    """Target Name"""
     optional_info_mask = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    """Optional Info Mask: 0 = False, 1 = True"""
     _can_duplicate = Column(mysql.TINYINT(display_width=1), nullable=False, default=0)
+    """Can Duplicate: 0 = False, 1 = True"""
     _crash_bug = Column(mysql.TINYINT(display_width=1), nullable=False, default=0)
+    """Crash Bug"""
     _target_info = Column(mysql.TINYINT(display_width=1), nullable=False, default=0)
+    """Target Info"""
     _character_flags = Column(mysql.TINYINT(display_width=1), nullable=False, default=0)
+    """Character Flags"""
     _unknown_value = Column(mysql.TINYINT(display_width=1), nullable=False, default=0)
+    """Unknown"""
     bug_report = Column(mysql.VARCHAR(1024), nullable=False)
+    """Bug Report"""
     system_info = Column(mysql.VARCHAR(1024), nullable=False)
+    """System Information"""
     report_datetime = Column(mysql.DATETIME, nullable=False, default="CURRENT_TIMESTAMP")
+    """Report Datetime"""
     bug_status = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    """Bug Status"""
     last_review = Column(mysql.DATETIME, nullable=False, default="CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
+    """Last Review Datetime"""
     last_reviewer = Column(mysql.VARCHAR(64), nullable=False, default="None")
+    """Last Reviewer"""
     reviewer_notes = Column(mysql.VARCHAR(1024), nullable=False)
+    """Reviewer Notes"""
+
+    account = relationship("Account", back_populates="bug_reports")
 
 
 @mapper_registry.mapped
@@ -115,10 +152,15 @@ class DiscoveredItems:
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/discovered_items/
     """
     __tablename__ = "discovered_items"
-    item_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
+    item_id = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey(Items.id), primary_key=True,
+                     nullable=False, default=0)
+    """Item Identifier (see https://docs.eqemu.io/schema/items/items/)"""
     char_name = Column(mysql.VARCHAR(64), nullable=False)
+    """Character Name (see https://docs.eqemu.io/schema/characters/character_data/)"""
     discovered_date = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
+    """Discovered Date UNIX Timestamp"""
     account_status = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    """Account Status (see https://docs.eqemu.io/server/player/status-levels)"""
 
 
 @mapper_registry.mapped

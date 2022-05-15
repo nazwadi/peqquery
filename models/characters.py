@@ -1,10 +1,8 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import registry
 
-from .items import Item
-
-mapper_registry = registry()
+from meta import mapper_registry
+from .items import Items
 
 
 @mapper_registry.mapped
@@ -162,25 +160,6 @@ class CharacterBuffs:
 
 
 @mapper_registry.mapped
-class CharacterCorpseItems:
-    """
-    EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_corpse_items/
-    """
-    __tablename__ = "character_corpse_items"
-    corpse_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=None)
-    equip_slot = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=None)
-    item_id = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=None)
-    charges = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=None)
-    aug_1 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
-    aug_2 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
-    aug_3 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
-    aug_4 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
-    aug_5 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
-    aug_6 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
-    attuned = Column(mysql.SMALLINT(display_width=5), nullable=False, default=0)
-
-
-@mapper_registry.mapped
 class CharacterCorpses:
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_corpses/
@@ -235,6 +214,38 @@ class CharacterCorpses:
     wc_7 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
     wc_8 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
     wc_9 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+
+
+@mapper_registry.mapped
+class CharacterCorpseItems:
+    """
+    EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_corpse_items/
+    """
+    __tablename__ = "character_corpse_items"
+    corpse_id = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey(CharacterCorpses.id),
+                       primary_key=True, nullable=False, default=None)
+    """Corpse Identifier (see https://docs.eqemu.io/schema/characters/character_corpses/)"""
+    equip_slot = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=None)
+    """Equipment Slot"""
+    item_id = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey(Items.id),
+                     nullable=True, default=None)
+    """Item Identifier (see https://docs.eqemu.io/schema/items/items/)"""
+    charges = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=None)
+    """Item Charges"""
+    aug_1 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    """Item Augment Slot 1"""
+    aug_2 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    """Item Augment Slot 2"""
+    aug_3 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    """Item Augment Slot 3"""
+    aug_4 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    """Item Augment Slot 4"""
+    aug_5 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    """Item Augment Slot 5"""
+    aug_6 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    """Item Augment Slot 6"""
+    attuned = Column(mysql.SMALLINT(display_width=5), nullable=False, default=0)
+    """Item Attuned: 0 = False, 1 = True"""
 
 
 @mapper_registry.mapped
@@ -407,11 +418,13 @@ class CharacterExpModifiers:
     exp_modifier = Column(mysql.FLOAT, nullable=False, default=None)
 
 
+"""
 @mapper_registry.mapped
 class CharacterExpeditionLockouts:
-    """
+    '''
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_expedition_lockouts/
-    """
+    '''
+    
     __tablename__ = "character_expedition_lockouts"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
                 primary_key=True, default=None, autoincrement="auto")
@@ -422,6 +435,7 @@ class CharacterExpeditionLockouts:
     expire_time = Column(mysql.DATETIME, nullable=False, default="CURRENT_TIMESTAMP")
     duration = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=0)
     from_expedition_uuid = Column(mysql.VARCHAR(36), nullable=False, default=None)
+"""""
 
 
 @mapper_registry.mapped
@@ -656,7 +670,7 @@ class Keyring:
     char_id = Column(mysql.INTEGER(display_width=11), ForeignKey(CharacterData.id),
                      primary_key=True, nullable=False, default=0)
     """Primary Key is not actually defined in sql"""
-    item_id = Column(mysql.INTEGER(display_width=11), ForeignKey(Item.id),
+    item_id = Column(mysql.INTEGER(display_width=11), ForeignKey(Items.id),
                      primary_key=True, nullable=False, default=0)
     """Primary Key is not actually defined in sql"""
 

@@ -1,8 +1,8 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import registry, relationship
+from sqlalchemy.orm import relationship
 
-mapper_registry = registry()
+from meta import mapper_registry
 
 
 @mapper_registry.mapped

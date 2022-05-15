@@ -1,10 +1,9 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import registry, relationship
+from sqlalchemy.orm import relationship
 
+from meta import mapper_registry
 from .groups import GroupId
-
-mapper_registry = registry()
 
 
 @mapper_registry.mapped

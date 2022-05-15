@@ -1,12 +1,13 @@
-from sqlalchemy import Column
+from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import registry
+from sqlalchemy.orm import relationship
 
-mapper_registry = registry()
+from meta import mapper_registry
+from .spells import SpellsNew
 
 
 @mapper_registry.mapped
-class Item:
+class Items:
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/items/items/
 
@@ -301,6 +302,23 @@ class Item:
     UNK241 = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
     epicitem = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
 
+    alternate_currency = relationship("AlternateCurrency")
+    character_corpse_items = relationship("CharacterCorpseItems")
+    discovered_items = relationship("DiscoveredItems")
+    doors = relationship("Doors", back_populates="items")
+    fishing = relationship("Fishing", back_populates="items")
+    forage = relationship("Forage", back_populates="items")
+    ground_spawns = relationship("GroundSpawns", back_populates="items")
+    item_tick = relationship("ItemTick", back_populates="items")
+    keyring = relationship("KeyRing", back_populates="items")
+    lootdrop_entries = relationship("LootdropEntries", back_populates="items")
+    merchantlist = relationship("MerchantList", back_populates="items")
+    object = relationship("Object", back_populates="items")
+    object_contents = relationship("ObjectContents", back_populates="items")
+    starting_items = relationship("StartingItems", back_populates="items")
+    tradeskill_recipe_entries = relationship("TradeskillRecipeEntries", back_populates="items")
+    tribute_levels = relationship("TributeLevels", back_populates="items")
+
 
 @mapper_registry.mapped
 class ItemTick:
@@ -309,9 +327,16 @@ class ItemTick:
     """
     __tablename__ = "item_tick"
 
-    it_itemid = Column(mysql.INTEGER(display_width=11), nullable=False)
+    it_itemid = Column(mysql.INTEGER(display_width=11), ForeignKey(Items.id), nullable=False)
+    """Item Identifier (see https://docs.eqemu.io/schema/items/items/)"""
     it_chance = Column(mysql.INTEGER(display_width=11), nullable=False)
+    """Chance: 0 = Never, 100 = Always"""
     it_level = Column(mysql.INTEGER(display_width=11), nullable=False)
-    it_id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, autoincrement="auto")
+    """Level"""
+    it_id = Column(mysql.INTEGER(display_width=11), ForeignKey(SpellsNew.id), primary_key=True,
+                   nullable=False, autoincrement="auto")
+    """Spell Identifier (https://docs.eqemu.io/schema/spells/spells_new/)"""
     it_qglobal = Column(mysql.VARCHAR(50), nullable=False)
+    """Quest Global Identifier (see https://docs.eqemu.io/schema/data-storage/quest_globals/) (Deprecated)"""
     it_bagslot = Column(mysql.TINYINT(display_width=4), nullable=False)
+    """Bag Slot (see https://docs.eqemu.io/server/inventory/inventory-slots)"""

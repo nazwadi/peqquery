@@ -1,9 +1,9 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import registry, relationship
+from sqlalchemy.orm import relationship
 
-from .items import Item
-mapper_registry = registry()
+from meta import mapper_registry
+from .items import Items
 
 
 @mapper_registry.mapped
@@ -16,7 +16,7 @@ class Inventory:
     """Character Identifier (see https://docs.eqemu.io/schema/characters/character_data/)"""
     slotid = Column(mysql.MEDIUMINT(display_width=7, unsigned=True), nullable=False, primary_key=True, default=0)
     """Slot Identifier (see https://docs.eqemu.io/server/inventory/inventory-slots)"""
-    itemid = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey(Item.id),
+    itemid = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey(Items.id),
                     nullable=True, default=0)
     """Item Identifier (see https://docs.eqemu.io/schema/items/items/)"""
     charges = Column(mysql.SMALLINT(display_width=3, unsigned=True), nullable=True, default=0)

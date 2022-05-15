@@ -1,10 +1,8 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import registry
+from meta import mapper_registry
 
 from .characters import CharacterData
-
-mapper_registry = registry()
 
 
 @mapper_registry.mapped

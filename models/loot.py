@@ -1,10 +1,9 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import registry, relationship
+from sqlalchemy.orm import relationship
+from meta import mapper_registry
 
-from models.items import Item
-
-mapper_registry = registry()
+from models.items import Items
 
 
 @mapper_registry.mapped
@@ -92,7 +91,7 @@ class LootdropEntries:
 
     lootdrop_id = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey(Lootdrop.id),
                          nullable=False, primary_key=True, default=0)
-    item_id = Column(mysql.INTEGER(display_width=11), ForeignKey(Item.id),
+    item_id = Column(mysql.INTEGER(display_width=11), ForeignKey(Items.id),
                      nullable=False, primary_key=True, default=0)
     item_charges = Column(mysql.SMALLINT(display_width=2, unsigned=True), nullable=False, default=1)
 
