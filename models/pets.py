@@ -1,7 +1,10 @@
-from sqlalchemy import Column
+from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
 from meta import mapper_registry
+
+from .npcs import NPCTypes
+from .items import Items
 
 
 @mapper_registry.mapped
@@ -11,16 +14,28 @@ class Pets:
     """
     __tablename__ = "pets"
     id = Column(mysql.INTEGER(display_width=20), nullable=False, primary_key=True, default=None, autoincrement="auto")
-    type = Column(mysql.VARCHAR(64), nullable=False, unique=False, primary_key=True)
+    type = Column(mysql.VARCHAR(64), ForeignKey(NPCTypes.name),
+                  nullable=False, unique=False, primary_key=True)
+    """NPC Type Name (see https://docs.eqemu.io/schema/npcs/npc_types/)"""
     petpower = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    """Pet Power"""
     npcID = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
+    """NPC Type Identifier (see https://docs.eqemu.io/schema/npcs/npc_types/)"""
     temp = Column(mysql.TINYINT(display_width=4), nullable=False, default=0)
+    """Temporary: 0 = False, 1 = True"""
     petcontrol = Column(mysql.TINYINT(display_width=4), nullable=False, default=0)
+    """Pet Control: 0 = No Control, 1 = No Attack Contro, 2 = Full Control"""
     petnaming = Column(mysql.TINYINT(display_width=4), nullable=False, default=0)
+    """
+    Pet Naming: 0 = Soandsos Pet, 1 = Soandsos Familiar, 2 = Soandsos Warder, 3 = Random Naming (i.e. Gobaner),
+    4 = Keeps name from npc_types table
+    """
     monsterflag = Column(mysql.TINYINT(display_width=4), nullable=False, default=0)
+    """Monster Flag: 0 = False, 1 = True"""
     equipmentset = Column(mysql.INTEGER(display_width=11), nullable=False, default=-1)
+    """Pet Equipment Set Identifier (see https://docs.eqemu.io/schema/pets/pets_equipmentset/)"""
 
-    npc_types = relationship("NPCTypes", back_populates="pets", uselist=False)
+    npc_types = relationship("NPCTypes", uselist=False)
 
 
 @mapper_registry.mapped
@@ -45,10 +60,13 @@ class PetsEquipmentSet:
     """
     __tablename__ = "pets_equipmentset"
     set_id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None)
+    """Unique Pet Equipment Set Identifier"""
     setname = Column(mysql.VARCHAR(30), nullable=False)
+    """Pet Equipment Set Name"""
     nested_set = Column(mysql.INTEGER(display_width=11), nullable=False, default=-1)
+    """Nested Set Identifier"""
 
-    pets_equipmentset_entries = relationship("PetsEquipmentSetEntries", back_populates="pets_equipmentset")
+    pets_equipmentset_entries = relationship("PetsEquipmentSetEntries")
 
 
 @mapper_registry.mapped
@@ -57,6 +75,11 @@ class PetsEquipmentSetEntries:
     EQEMU Docs URL: https://docs.eqemu.io/schema/pets/pets_equipmentset_entries/
     """
     __tablename__ = "pets_equipmentset_entries"
-    set_id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None)
+    set_id = Column(mysql.INTEGER(display_width=11), ForeignKey(PetsEquipmentSet.set_id),
+                    nullable=False, primary_key=True, default=None)
+    """Pet Equipment Set Identifier (see https://docs.eqemu.io/schema/pets/pets_equipmentset/)"""
     slot = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None)
-    item_id = Column(mysql.INTEGER(display_width=11), nullable=False, default=None)
+    """Slot"""
+    item_id = Column(mysql.INTEGER(display_width=11), ForeignKey(Items.id),
+                     nullable=False, default=None)
+    """Item Identifier (see https://docs.eqemu.io/schema/items/items/)"""

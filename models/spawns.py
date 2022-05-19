@@ -1,4 +1,4 @@
-from sqlalchemy import Column
+from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
 
@@ -65,32 +65,8 @@ class Spawn2:
 
     spawngroup = relationship("SpawnGroup", back_populates="spawn2", uselist=False)
     """Relationship Type: One-to-One, Local Key: spawngroupID, Relates to Table: spawngroup, Foreign Key: id"""
-    spawn_entries = relationship("SpawnEntry", back_populates="spawn2")
+    # spawn_entries = relationship("SpawnEntry", foreign_keys="Spawn2.spawngroupID")
     """Relationship Type: Has-Many, Local Key: spawngroupID, Relates to Table: spawnentry, Foreign Key: spawngroupID"""
-
-
-@mapper_registry.mapped
-class SpawnEntry:
-    """
-    EQEMU Docs URL: https://docs.eqemu.io/schema/spawns/spawnentry/
-    """
-    __tablename__ = "spawnentry"
-    spawngroupID = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=0)
-    """Unique Spawn Group Identifier (see https://docs.eqemu.io/schema/spawns/spawngroup/)"""
-    npcID = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=0)
-    """NPC Type Identifier (see https://docs.eqemu.io/schema/npcs/npc_types/)"""
-    chance = Column(mysql.SMALLINT(4), nullable=False, default=0)
-    """Chance: 0 = Never, 100 = Always"""
-    condition_value_filter = Column(mysql.MEDIUMINT(display_width=9), nullable=False, default=1)
-    min_expansion = Column(mysql.TINYINT(display_width=4), nullable=False, default=-1)
-    max_expansion = Column(mysql.TINYINT(display_width=4), nullable=False, default=-1)
-    content_flags = Column(mysql.VARCHAR(100), nullable=True, default=None)
-    content_flags_disabled = Column(mysql.VARCHAR(100), nullable=True, default=None)
-
-    spawngroup = relationship("SpawnGroup", back_populates="spawnentry", uselist=False)
-    """Relationship Type: One-to-One, Local Key: spawngroupID, Relates to Table: spawngroup, Foreign Key: id"""
-    npc_types = relationship("NPCTypes", back_populates="spawnentry", uselist=False)
-    """Relationship Type: One-to-One, Local Key: npcID, Relates to Table: npc_types, Foreign Key: id"""
 
 
 @mapper_registry.mapped
@@ -99,7 +75,8 @@ class SpawnGroup:
     EQEMU Docs URL: https://docs.eqemu.io/schema/spawns/spawngroup/
     """
     __tablename__ = "spawngroup"
-    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
+    id = Column(mysql.INTEGER(display_width=11), ForeignKey(Spawn2.spawngroupID), nullable=False,
+                primary_key=True, default=None, autoincrement="auto")
     """Unique Spawn Group Identifier"""
     name = Column(mysql.VARCHAR(50), nullable=False, unique=True)
     """Name"""
@@ -125,8 +102,34 @@ class SpawnGroup:
     """Despawn Timer in Seconds"""
     wp_spawns = Column(mysql.TINYINT(display_width=1), nullable=False, default=0)
 
-    spawn = relationship("Spawn2", back_populates="spawngroup", uselist=False)
+    spawn2 = relationship("Spawn2", back_populates="spawngroup", uselist=False)
     """Relationship Type: One-to-One, Local Key: id, Relates to Table: spawn2, Foreign Key: spawngroupID"""
+
+
+@mapper_registry.mapped
+class SpawnEntry:
+    """
+    EQEMU Docs URL: https://docs.eqemu.io/schema/spawns/spawnentry/
+    """
+    __tablename__ = "spawnentry"
+    spawngroupID = Column(mysql.INTEGER(display_width=11), ForeignKey(SpawnGroup.id), nullable=False,
+                          primary_key=True, default=0)
+    """Unique Spawn Group Identifier (see https://docs.eqemu.io/schema/spawns/spawngroup/)"""
+    npcID = Column(mysql.INTEGER(display_width=11), ForeignKey("npc_types.id"),
+                   nullable=False, primary_key=True, default=0)
+    """NPC Type Identifier (see https://docs.eqemu.io/schema/npcs/npc_types/)"""
+    chance = Column(mysql.SMALLINT(4), nullable=False, default=0)
+    """Chance: 0 = Never, 100 = Always"""
+    condition_value_filter = Column(mysql.MEDIUMINT(display_width=9), nullable=False, default=1)
+    min_expansion = Column(mysql.TINYINT(display_width=4), nullable=False, default=-1)
+    max_expansion = Column(mysql.TINYINT(display_width=4), nullable=False, default=-1)
+    content_flags = Column(mysql.VARCHAR(100), nullable=True, default=None)
+    content_flags_disabled = Column(mysql.VARCHAR(100), nullable=True, default=None)
+
+    spawngroup = relationship("SpawnGroup", uselist=False)
+    """Relationship Type: One-to-One, Local Key: spawngroupID, Relates to Table: spawngroup, Foreign Key: id"""
+    npc_types = relationship("NPCTypes", foreign_keys=[npcID], uselist=False)
+    """Relationship Type: One-to-One, Local Key: npcID, Relates to Table: npc_types, Foreign Key: id"""
 
 
 @mapper_registry.mapped

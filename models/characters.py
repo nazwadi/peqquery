@@ -662,7 +662,7 @@ class Friends:
 
 
 @mapper_registry.mapped
-class Keyring:
+class KeyRing:
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/keyring/
     """

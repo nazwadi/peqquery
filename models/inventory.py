@@ -46,7 +46,7 @@ class Inventory:
     ornament_hero_model = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
     """Ornamentation Hero's Forge Model"""
 
-    items = relationship("Items", back_populates="inventory", uselist=False)
+    items = relationship("Items", uselist=False)
     """Relationship Type: One-to-One, Local Key: itemid, Relates to Table: items, Foreign Key: id"""
 
 

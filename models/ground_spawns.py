@@ -48,7 +48,7 @@ class GroundSpawns:
     content_flags = Column(mysql.VARCHAR(100), nullable=True, default=None)
     content_flags_disabled = Column(mysql.VARCHAR(100), nullable=True, default=None)
 
-    zone = relationship("Zone", back_populates="ground_spawns")
+    zone = relationship("Zone")
     """Relationship Type: One-to-One, Local Key: zoneid, Relates to Table: zone, Foreign Key: zoneidnumber"""
     items = relationship("Items", back_populates="ground_spawns")
     """Relationship Type: One-to-One, Local Key: item, Relates to Table: items, Foreign Key: id"""

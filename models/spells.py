@@ -7,80 +7,6 @@ from .npcs import NPCTypes
 
 
 @mapper_registry.mapped
-class BlockedSpells:
-    """
-    EQEMU Docs URL: https://docs.eqemu.io/schema/spells/blocked_spells/
-    """
-    __tablename__ = "blocked_spells"
-    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
-    """Unique Blocked Spells Identifier"""
-    spellid = Column(mysql.MEDIUMINT(display_width=8, unsigned=True), nullable=False, default=0)
-    """Spell Identifier"""
-    type = Column(mysql.TINYINT(display_width=4), nullable=False, default=0)
-    """Blocked Spell Type"""
-    zoneid = Column(mysql.INTEGER(display_width=4), nullable=False, default=0)
-    """Zone Identifier"""
-    x = Column(mysql.FLOAT, nullable=False, default=0)
-    """X Coordinate"""
-    y = Column(mysql.FLOAT, nullable=False, default=0)
-    """Y Coordinate"""
-    z = Column(mysql.FLOAT, nullable=False, default=0)
-    """Z Coordinate"""
-    x_diff = Column(mysql.FLOAT, nullable=False, default=0)
-    """X Radius"""
-    y_diff = Column(mysql.FLOAT, nullable=False, default=0)
-    """Y Radius"""
-    z_diff = Column(mysql.FLOAT, nullable=False, default=0)
-    """Z Radius"""
-    message = Column(mysql.VARCHAR(255), nullable=False, default='')
-    """Message when blocked"""
-    description = Column(mysql.VARCHAR(255), nullable=False, default='')
-    """Blocked spells description"""
-
-
-@mapper_registry.mapped
-class DamageShieldTypes:
-    """
-    EQEMU Docs URL: https://docs.eqemu.io/schema/spells/damageshieldtypes/
-    """
-    __tablename__ = "damageshieldtypes"
-    spellid = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, primary_key=True, default=0)
-    """Spell Identifier (see https://docs.eqemu.io/schema/spells/spells_new/)"""
-    type = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    """Damage Shield Type (see https://docs.eqemu.io/server/spells/damage-shield-types)"""
-
-
-@mapper_registry.mapped
-class SpellBuckets:
-    """
-    EQEMU Docs URL: https://docs.eqemu.io/schema/spells/spell_buckets/
-    """
-    __tablename__ = "spell_buckets"
-    spellid = Column(mysql.BIGINT(display_width=11, unsigned=True), nullable=False, primary_key=True, default=None)
-    """Unique Spell Identifier (see https://docs.eqemu.io/schema/spells/spells_new/)"""
-    key = Column(mysql.VARCHAR(100), nullable=True, unique=False, primary_key=True, default=None)
-    """Data Bucket Name (see https://docs.eqemu.io/schema/data-storage/data_buckets/)"""
-    value = Column(mysql.TEXT, nullable=True, default=None)
-    """Data Bucket Value"""
-
-
-@mapper_registry.mapped
-class SpellGlobals:
-    """
-    EQEMU Docs URL: https://docs.eqemu.io/schema/spells/spell_globals/
-    """
-    __tablename__ = "spell_globals"
-    spellid = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None)
-    """Unique Spell Identifier (see https://docs.eqemu.io/schema/spells/spells_new/)"""
-    spell_name = Column(mysql.VARCHAR(64), nullable=False, default="")
-    """Spell Name (see https://docs.eqemu.io/schema/spells/spells_new/)"""
-    qglobal = Column(mysql.VARCHAR(65), nullable=False, default="")
-    """Quest Global Name (see https://docs.eqemu.io/schema/data-storage/quest_globals/)"""
-    value = Column(mysql.VARCHAR(65), nullable=False, default="")
-    """Quest Global Value"""
-
-
-@mapper_registry.mapped
 class SpellsNew:
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/spells/spells_new/
@@ -324,10 +250,88 @@ class SpellsNew:
     field236 = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
 
     auras = relationship("Auras", back_populates="spells_new", uselist=False)
-    damageshieldtypes = relationship("DamageShieldTypes", back_populates="spells_new")
-    spell_buckets = relationship("SpellBuckets", back_populates="spells_new")
-    spell_globals = relationship("SpellGlobals", back_populates="spells_new")
-    blocked_spells = relationship("BlockedSpells", back_populates="spells_new")
+    damageshieldtypes = relationship("DamageShieldTypes")
+    spell_buckets = relationship("SpellBuckets")
+    spell_globals = relationship("SpellGlobals")
+    blocked_spells = relationship("BlockedSpells")
+
+
+@mapper_registry.mapped
+class BlockedSpells:
+    """
+    EQEMU Docs URL: https://docs.eqemu.io/schema/spells/blocked_spells/
+    """
+    __tablename__ = "blocked_spells"
+    id = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=None, autoincrement="auto")
+    """Unique Blocked Spells Identifier"""
+    spellid = Column(mysql.MEDIUMINT(display_width=8, unsigned=True), ForeignKey(SpellsNew.id),
+                     nullable=False, default=0)
+    """Spell Identifier (see https://docs.eqemu.io/schema/spells/spells_new/)"""
+    type = Column(mysql.TINYINT(display_width=4), nullable=False, default=0)
+    """Blocked Spell Type (see https://docs.eqemu.io/server/spells/blocked-spell-types)"""
+    zoneid = Column(mysql.INTEGER(display_width=4), nullable=False, default=0)
+    """Zone Identifier (see https://docs.eqemu.io/server/zones/zone-list)"""
+    x = Column(mysql.FLOAT, nullable=False, default=0)
+    """X Coordinate"""
+    y = Column(mysql.FLOAT, nullable=False, default=0)
+    """Y Coordinate"""
+    z = Column(mysql.FLOAT, nullable=False, default=0)
+    """Z Coordinate"""
+    x_diff = Column(mysql.FLOAT, nullable=False, default=0)
+    """X Radius"""
+    y_diff = Column(mysql.FLOAT, nullable=False, default=0)
+    """Y Radius"""
+    z_diff = Column(mysql.FLOAT, nullable=False, default=0)
+    """Z Radius"""
+    message = Column(mysql.VARCHAR(255), nullable=False, default='')
+    """Message when blocked"""
+    description = Column(mysql.VARCHAR(255), nullable=False, default='')
+    """Blocked spells description"""
+
+
+@mapper_registry.mapped
+class SpellBuckets:
+    """
+    EQEMU Docs URL: https://docs.eqemu.io/schema/spells/spell_buckets/
+    """
+    __tablename__ = "spell_buckets"
+    spellid = Column(mysql.BIGINT(display_width=11, unsigned=True), ForeignKey(SpellsNew.id),
+                     nullable=False, primary_key=True, default=None)
+    """Unique Spell Identifier (see https://docs.eqemu.io/schema/spells/spells_new/)"""
+    key = Column(mysql.VARCHAR(100), nullable=True, unique=False, primary_key=True, default=None)
+    """Data Bucket Name (see https://docs.eqemu.io/schema/data-storage/data_buckets/)"""
+    value = Column(mysql.TEXT, nullable=True, default=None)
+    """Data Bucket Value"""
+
+
+@mapper_registry.mapped
+class SpellGlobals:
+    """
+    EQEMU Docs URL: https://docs.eqemu.io/schema/spells/spell_globals/
+    """
+    __tablename__ = "spell_globals"
+    spellid = Column(mysql.INTEGER(display_width=11), ForeignKey(SpellsNew.id),
+                     nullable=False, primary_key=True, default=None)
+    """Unique Spell Identifier (see https://docs.eqemu.io/schema/spells/spells_new/)"""
+    spell_name = Column(mysql.VARCHAR(64), nullable=False, default="")
+    """Spell Name (see https://docs.eqemu.io/schema/spells/spells_new/)"""
+    qglobal = Column(mysql.VARCHAR(65), nullable=False, default="")
+    """Quest Global Name (see https://docs.eqemu.io/schema/data-storage/quest_globals/)"""
+    value = Column(mysql.VARCHAR(65), nullable=False, default="")
+    """Quest Global Value"""
+
+
+@mapper_registry.mapped
+class DamageShieldTypes:
+    """
+    EQEMU Docs URL: https://docs.eqemu.io/schema/spells/damageshieldtypes/
+    """
+    __tablename__ = "damageshieldtypes"
+    spellid = Column(mysql.INTEGER(display_width=10, unsigned=True), ForeignKey(SpellsNew.id),
+                     nullable=False, primary_key=True, default=0)
+    """Spell Identifier (see https://docs.eqemu.io/schema/spells/spells_new/)"""
+    type = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
+    """Damage Shield Type (see https://docs.eqemu.io/server/spells/damage-shield-types)"""
 
 
 @mapper_registry.mapped
@@ -360,7 +364,7 @@ class Auras:
     cast_time = Column(mysql.INTEGER(display_width=10), nullable=False, default=0)
     """Cast Time"""
 
-    npc_types = relationship("NPCTypes", back_populates="auras", uselist=False)
+    npc_types = relationship("NPCTypes", uselist=False)
     """Relationship Type: One-to-One, Local Key: npc_type, Relates to Table: npc_types, Foreign Key: id"""
     spells_new = relationship("SpellsNew", back_populates="auras", uselist=False)
     """Relationship Type: One-to-One, Local Key: spell_id, Relates to Table: spells_new, Foreign Key: id"""

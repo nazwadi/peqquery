@@ -24,7 +24,7 @@ class MerchantList:
     content_flags = Column(mysql.VARCHAR(100), nullable=True)
     content_flags_disabled = Column(mysql.VARCHAR(100), nullable=True)
 
-    items = relationship("Item", back_populates="item")
+    items = relationship("Items", back_populates="merchantlist")
 
 
 @mapper_registry.mapped

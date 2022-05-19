@@ -4,7 +4,7 @@ from .admin import *
 from .adventures import *
 from .alternate_currency import *
 from .books import *
-#from .bots import *
+# from .bots import *
 from .buyers import *
 from .characters import *
 from .client_files import *
@@ -25,11 +25,12 @@ from .inventory import *
 from .items import *
 from .loginserver import *
 from .loot import *
+# from .mercenaries import *
 from .merchants import *
 from .npcs import *
 from .objects import *
 from .pets import *
-#from .query_server import *
+# from .query_server import *
 from .raids import *
 from .rules import *
 from .scheduler import *
@@ -38,6 +39,7 @@ from .spells import *
 from .tasks import *
 from .timers import *
 from .titles import *
+# from .tools import *
 from .trader import *
 from .tradeskills import *
 from .traps import *

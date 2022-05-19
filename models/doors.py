@@ -91,4 +91,6 @@ class Doors:
     content_flags_disabled = Column(mysql.VARCHAR(100), nullable=True, default=None)
 
     items = relationship("Items", back_populates="doors", uselist=False)
-    zone = relationship("Zone", back_populates="doors", uselist=False)
+    """Relationship Type: One-to-One, Local Key: keyitem, Relates to Table: items, Foreign Key: id"""
+#    zone = relationship("Zone", uselist=False)
+    """Relationship Type: One-to-One, Local Key: zone, Relates to Table: zone, Foreign Key: short_name"""

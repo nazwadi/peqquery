@@ -16,11 +16,16 @@ class NPCEmotes:
     """
     __tablename__ = "npc_emotes"
     id = Column(mysql.INTEGER(display_width=10), nullable=False, primary_key=True, default=None, autoincrement="auto")
+    """Unique NPC Emote Identifier"""
     emoteid = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False,
                      unique=False, primary_key=True, default=0)
+    """Emote Identifier"""
     event_ = Column(mysql.TINYINT(display_width=3), nullable=False, default=0)
+    """Emote Event Type Identifier"""
     type = Column(mysql.TINYINT(display_width=3), nullable=False, default=0)
+    """Emote Type Identifier"""
     text = Column(mysql.VARCHAR(512), nullable=False, default=None)
+    """Text"""
 
 
 @mapper_registry.mapped
@@ -405,9 +410,9 @@ class NPCTypes:
     merchantlist = relationship(MerchantList)
     npc_faction = relationship("NPCFaction")
     npc_spells = relationship("NPCSpells")
-    spawnentries = relationship(SpawnEntry, back_populates="npc_types", uselist=False)
-    npc_emotes = relationship("NPCEmotes", back_populates="npc_emotes")
-    npc_types_tint = relationship("NPCTypesTint", back_populates="npc_types_tint", uselist=False)
+    spawnentry = relationship("SpawnEntry", foreign_keys=[id])
+    npc_emotes = relationship("NPCEmotes")
+    npc_types_tint = relationship("NPCTypesTint", uselist=False)
 
 
 @mapper_registry.mapped
