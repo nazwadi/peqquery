@@ -311,7 +311,7 @@ class Items:
     ground_spawns = relationship("GroundSpawns", back_populates="items")
     item_tick = relationship("ItemTick")
     keyring = relationship("KeyRing")
-    lootdrop_entries = relationship("LootdropEntries")
+    lootdrop_entries = relationship("LootdropEntries", back_populates="items")
     merchantlist = relationship("MerchantList", back_populates="items")
 #    object = relationship("Object", back_populates="items")
 #    object_contents = relationship("ObjectContents", back_populates="items")

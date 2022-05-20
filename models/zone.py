@@ -6,7 +6,7 @@ from .graveyards import Graveyard
 from .rules import RuleSets
 
 
-@mapper_registry.mapped
+#@mapper_registry.mapped
 class Launcher:
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/zone/launcher/#schema

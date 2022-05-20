@@ -52,10 +52,15 @@ class Account:
     """Suspension Reason"""
 
     account_flags = relationship("AccountFlags", back_populates="account")
+    """Relationship Type: Has-Many, Local Key: id, Relates to Table: account_flags, Foreign Key: p_accid"""
     account_rewards = relationship("AccountRewards", back_populates="account")
+    """Relationship Type: Has-Many, Local Key: id, Relates to Table: account_rewards, Foreign Key: account_id"""
     sharedbank = relationship("SharedBank", back_populates="account")
+    """Relationship Type: Has-Many, Local Key: id, Relates to Table: sharedbank, Foreign Key: acctid"""
     bug_reports = relationship("BugReports", back_populates="account")
+    """Relationship Type: Has-Many, Local Key: id, Relates to Table: bug_reports, Foreign Key: account_id"""
     account_ip = relationship("AccountIP", back_populates="account")
+    """Relationship Type: Has-Many, Local Key: id, Relates to Table: account_ip, Foreign Key: accid"""
 
 
 @mapper_registry.mapped
@@ -83,9 +88,13 @@ class AccountIP:
     __tablename__ = "account_ip"
     accid = Column(mysql.INTEGER(display_width=11), ForeignKey('account.id'),
                    nullable=False, primary_key=True, default=0)
+    """Account Identifier (see https://docs.eqemu.io/schema/account/account/)"""
     ip = Column(mysql.VARCHAR(32), nullable=False, primary_key=True)
+    """IP Address"""
     count = Column(mysql.INTEGER(display_width=11), nullable=False, default=1)
+    """Number of times logged in from this IP"""
     lastused = Column(mysql.TIMESTAMP, nullable=False, default=text('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'))
+    """Timestamp of when account was last logged in"""
 
     account = relationship("Account", back_populates="account_ip")
 
@@ -98,8 +107,10 @@ class AccountRewards:
     __tablename__ = "account_rewards"
     account_id = Column(mysql.INTEGER(display_width=10, unsigned=True), ForeignKey('account.id'),
                         nullable=False, primary_key=True)
+    """Account Identifier (see https://docs.eqemu.io/schema/account/account/)"""
     reward_id = Column(mysql.INTEGER(display_width=10, unsigned=True), ForeignKey('veteran_reward_templates.reward_id'),
                        nullable=False, primary_key=True)
+    """Veteran Reward Identifier (see https://docs.eqemu.io/schema/admin/veteran_reward_templates/)"""
     amount = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False)
 
     account = relationship("Account", back_populates="account_rewards")
@@ -113,15 +124,26 @@ class SharedBank:
     __tablename__ = "sharedbank"
     acctid = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey('account.id'),
                     nullable=True, primary_key=True, default=0)
+    """Unique Account Identifier (see https://docs.eqemu.io/schema/account/account/)"""
     slotid = Column(mysql.MEDIUMINT(display_width=7, unsigned=True), nullable=True, default=0)
+    """Slot Identifier (see https://docs.eqemu.io/server/inventory/inventory-slots)"""
     itemid = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
+    """Item Identifier (see https://docs.eqemu.io/schema/items/items/)"""
     charges = Column(mysql.SMALLINT(display_width=3, unsigned=True), nullable=True, default=0)
+    """Charges"""
     augslot1 = Column(mysql.MEDIUMINT(display_width=7, unsigned=True), nullable=False, default=0)
+    """Augment Slot 1"""
     augslot2 = Column(mysql.MEDIUMINT(display_width=7, unsigned=True), nullable=False, default=0)
+    """Augment Slot 2"""
     augslot3 = Column(mysql.MEDIUMINT(display_width=7, unsigned=True), nullable=False, default=0)
+    """Augment Slot 3"""
     augslot4 = Column(mysql.MEDIUMINT(display_width=7, unsigned=True), nullable=False, default=0)
+    """Augment Slot 4"""
     augslot5 = Column(mysql.MEDIUMINT(display_width=7, unsigned=True), nullable=False, default=0)
+    """Augment Slot 5"""
     augslot6 = Column(mysql.MEDIUMINT(display_width=7), nullable=False, default=0)
+    """Augment Slot 6"""
     custom_data = Column(mysql.TEXT, nullable=True)
+    """Custom Data"""
 
     account = relationship("Account", back_populates="sharedbank")

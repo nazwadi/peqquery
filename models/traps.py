@@ -6,6 +6,7 @@ from meta import mapper_registry
 from .spells import SpellsNew
 from .zone import Zone
 
+
 @mapper_registry.mapped
 class LDONTrapTemplates:
     """

@@ -96,7 +96,7 @@ class LootdropEntries:
     npc_min_level = Column(mysql.SMALLINT(display_width=5, unsigned=True), nullable=False, default=0)
     npc_max_level = Column(mysql.SMALLINT(display_width=5, unsigned=True), nullable=False, default=0)
 
-    items = relationship("Items")
+    items = relationship("Items", back_populates="lootdrop_entries")
     lootdrop = relationship("Lootdrop")
 
 
