@@ -12,7 +12,9 @@ class Inventory(Base):
     """
     __tablename__ = "inventory"
     charid = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
-    """Character Identifier (see https://docs.eqemu.io/schema/characters/character_data/)"""
+    """..
+    :Character Identifier: (see https://docs.eqemu.io/schema/characters/character_data/)
+    """
     slotid = Column(mysql.MEDIUMINT(display_width=7, unsigned=True), nullable=False, primary_key=True, default=0)
     """Slot Identifier (see https://docs.eqemu.io/server/inventory/inventory-slots)"""
     itemid = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey(Items.id),
@@ -46,7 +48,15 @@ class Inventory(Base):
     """Ornamentation Hero's Forge Model"""
 
     items = relationship("Items", uselist=False)
-    """Relationship Type: One-to-One, Local Key: itemid, Relates to Table: items, Foreign Key: id"""
+    """
+    Relationship
+    ------------
+    +-------------------+-----------+----------------------+-------------+
+    | Relationship Type | Local Key | Relates to Table     | Foreign Key |
+    +===================+===========+======================+=============+
+    | One-to-One        | itemid    | items                | id          |
+    +-------------------+-----------+----------------------+-------------+
+    """
 
 
 class InventorySnapshots(Base):

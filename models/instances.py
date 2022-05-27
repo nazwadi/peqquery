@@ -18,16 +18,28 @@ class InstanceList(Base):
     version = Column(mysql.TINYINT(display_width=4, unsigned=True), nullable=False, default=0)
     """Version"""
     is_global = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    """Is Global: 0 = False, 1 = True"""
+    """.. 
+    :Is Global: 0 = False, 1 = True
+    """
     start_time = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
     """Start Time UNIX Timestamp"""
     duration = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
     """Duration in Seconds"""
     never_expires = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
-    """Never Expires: 0 = False, 1 = True"""
+    """..
+    :Never Expires: 0 = False, 1 = True
+    """
 
     instance_list_player = relationship("InstanceListPlayer")
-    """Relationship Type: Has-Many, Local Key: id, Relates to Table: instance_list_player, Foreign Key: id"""
+    """
+    Relationship
+    ------------
+    +-------------------+-----------+----------------------+-------------+
+    | Relationship Type | Local Key | Relates to Table     | Foreign Key |
+    +===================+===========+======================+=============+
+    | Has-Many          | id        | instance_list_player | id          |
+    +-------------------+-----------+----------------------+-------------+
+    """
 #    zone_relationship = relationship("Zone")
 
 
