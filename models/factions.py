@@ -1,10 +1,9 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from meta import mapper_registry
+from meta import Base
 
 
-@mapper_registry.mapped
-class FactionBaseData:
+class FactionBaseData(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/factions/faction_base_data/#schema
     """
@@ -17,8 +16,7 @@ class FactionBaseData:
     unk_hero3 = Column(mysql.SMALLINT(display_width=6), nullable=True, default=None)
 
 
-@mapper_registry.mapped
-class FactionList:
+class FactionList(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/factions/faction_list/#schema
     """
@@ -28,8 +26,7 @@ class FactionList:
     base = Column(mysql.SMALLINT(display_width=6), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class FactionListMod:
+class FactionListMod(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/factions/faction_list_mod/#schema
     """
@@ -42,8 +39,7 @@ class FactionListMod:
     mod_name = Column(mysql.VARCHAR(16), nullable=False, default=None)
 
 
-@mapper_registry.mapped
-class FactionValues:
+class FactionValues(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/factions/faction_values/#schema
     """

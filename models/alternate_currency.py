@@ -1,11 +1,10 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 
-from meta import mapper_registry
+from meta import Base
 
 
-@mapper_registry.mapped
-class AlternateCurrency:
+class AlternateCurrency(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/alternate-currency/alternate_currency/
     """

@@ -1,14 +1,13 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
-from meta import mapper_registry
 
+from meta import Base
 from .spells import SpellsNew
 from .zone import Zone
 
 
-@mapper_registry.mapped
-class LDONTrapTemplates:
+class LDONTrapTemplates(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/traps/ldon_trap_entries/
     """
@@ -26,8 +25,7 @@ class LDONTrapTemplates:
     """Locked: 0 = False, 1 = True"""
 
 
-@mapper_registry.mapped
-class LDONTrapEntries:
+class LDONTrapEntries(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/traps/ldon_trap_entries/
     """
@@ -39,8 +37,7 @@ class LDONTrapEntries:
     """Trap Identifier (see https://docs.eqemu.io/schema/traps/ldon_trap_templates/)"""
 
 
-@mapper_registry.mapped
-class Traps:
+class Traps(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/traps/traps/
     """

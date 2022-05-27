@@ -1,10 +1,10 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from meta import mapper_registry
+
+from meta import Base
 
 
-@mapper_registry.mapped
-class AdventureDetails:
+class AdventureDetails(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/adventures/adventure_details/
     """
@@ -34,8 +34,7 @@ class AdventureDetails:
     request_timer_seconds = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class AdventureMembers:
+class AdventureMembers(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/adventures/adventure_members/
     """
@@ -45,8 +44,7 @@ class AdventureMembers:
     charid = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, primary_key=True, default=None)
 
 
-@mapper_registry.mapped
-class AdventureStats:
+class AdventureStats(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/adventures/adventure_stats/
     """
@@ -64,8 +62,7 @@ class AdventureStats:
     tak_losses = Column(mysql.MEDIUMINT(display_width=8, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class AdventureTemplate:
+class AdventureTemplate(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/adventures/adventure_template/
     """
@@ -105,8 +102,7 @@ class AdventureTemplate:
     graveyard_radius = Column(mysql.FLOAT(unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class AdventureTemplateEntry:
+class AdventureTemplateEntry(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/adventures/adventure_template_entry/
     """
@@ -115,8 +111,7 @@ class AdventureTemplateEntry:
     template_id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, primary_key=True, default=None)
 
 
-@mapper_registry.mapped
-class AdventureTemplateEntryFlavor:
+class AdventureTemplateEntryFlavor(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/adventures/adventure_template_entry_flavor/
     """

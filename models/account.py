@@ -2,11 +2,10 @@ from sqlalchemy import Column, ForeignKey, text
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
 
-from meta import mapper_registry
+from meta import Base
 
 
-@mapper_registry.mapped
-class Account:
+class Account(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/account/account/
     """
@@ -63,8 +62,7 @@ class Account:
     """Relationship Type: Has-Many, Local Key: id, Relates to Table: account_ip, Foreign Key: accid"""
 
 
-@mapper_registry.mapped
-class AccountFlags:
+class AccountFlags(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/account/account_flags/
     """
@@ -80,8 +78,7 @@ class AccountFlags:
     account = relationship("Account", back_populates="account_flags")
 
 
-@mapper_registry.mapped
-class AccountIP:
+class AccountIP(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/account/account_ip/
     """
@@ -99,8 +96,7 @@ class AccountIP:
     account = relationship("Account", back_populates="account_ip")
 
 
-@mapper_registry.mapped
-class AccountRewards:
+class AccountRewards(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/account/account_rewards/
     """
@@ -116,8 +112,7 @@ class AccountRewards:
     account = relationship("Account", back_populates="account_rewards")
 
 
-@mapper_registry.mapped
-class SharedBank:
+class SharedBank(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/account/sharedbank/
     """

@@ -1,10 +1,10 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from meta import mapper_registry
+
+from meta import Base
 
 
-@mapper_registry.mapped
-class Guilds:
+class Guilds(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/guilds/guilds/
     """
@@ -20,8 +20,7 @@ class Guilds:
     url = Column(mysql.VARCHAR(512), nullable=False)
 
 
-@mapper_registry.mapped
-class GuildBank:
+class GuildBank(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/guilds/guild_bank/
     """
@@ -39,8 +38,7 @@ class GuildBank:
     whofor = Column(mysql.VARCHAR(64), nullable=True, default=None)
 
 
-@mapper_registry.mapped
-class GuildRanks:
+class GuildRanks(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/guilds/guild_ranks/
     """
@@ -58,8 +56,7 @@ class GuildRanks:
     can_warpeace = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class GuildMembers:
+class GuildMembers(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/guilds/guild_members/
     """
@@ -75,8 +72,7 @@ class GuildMembers:
     alt = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class GuildRelations:
+class GuildRelations(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/guilds/guild_relations/
     """

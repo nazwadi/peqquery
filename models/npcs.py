@@ -2,15 +2,14 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
 
-from meta import mapper_registry
+from meta import Base
 from .factions import FactionList
 from .alternate_currency import AlternateCurrency
 from .merchants import MerchantList
 from .spawns import SpawnEntry
 
 
-@mapper_registry.mapped
-class NPCEmotes:
+class NPCEmotes(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_emotes/
     """
@@ -28,8 +27,7 @@ class NPCEmotes:
     """Text"""
 
 
-@mapper_registry.mapped
-class NPCFaction:
+class NPCFaction(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_faction/
     """
@@ -43,8 +41,7 @@ class NPCFaction:
     """Relationship Type: Has-Many, Local Key: id, Relates to Table: npc_faction_entries, Foreign Key: npc_faction_id"""
 
 
-@mapper_registry.mapped
-class NPCFactionEntries:
+class NPCFactionEntries(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_faction_entries/
     """
@@ -69,8 +66,7 @@ class NPCFactionEntries:
     npc_faction = relationship("NPCFaction", back_populates="npc_faction_entries")
 
 
-@mapper_registry.mapped
-class NPCScaleGlobalBase:
+class NPCScaleGlobalBase(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_scale_global_base/
     """
@@ -105,8 +101,7 @@ class NPCScaleGlobalBase:
     special_abilities = Column(mysql.TEXT, nullable=True, default=None)
 
 
-@mapper_registry.mapped
-class NPCSpells:
+class NPCSpells(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_spells/
     """
@@ -153,8 +148,7 @@ class NPCSpells:
     npc_spells_entries = relationship("NPCSpellsEntries", back_populates="npc_spells")
 
 
-@mapper_registry.mapped
-class NPCSpellsEffects:
+class NPCSpellsEffects(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_spells_effects/
     """
@@ -167,8 +161,7 @@ class NPCSpellsEffects:
     npc_spells_effects_entries = relationship("NPCSpellsEffectsEntries", back_populates="npc_spells_effects")
 
 
-@mapper_registry.mapped
-class NPCSpellsEffectsEntries:
+class NPCSpellsEffectsEntries(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_spells_effects_entries/
     """
@@ -195,8 +188,7 @@ class NPCSpellsEffectsEntries:
     npc_spells_effects = relationship("NPCSpellsEffects", back_populates="npc_spells_effects_entries")
 
 
-@mapper_registry.mapped
-class NPCSpellsEntries:
+class NPCSpellsEntries(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_spells_entries/
     """
@@ -231,8 +223,7 @@ class NPCSpellsEntries:
     npc_spells = relationship("NPCSpells", back_populates="npc_spells_entries")
 
 
-@mapper_registry.mapped
-class NPCTypesTint:
+class NPCTypesTint(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_types_tint/
     """
@@ -268,8 +259,7 @@ class NPCTypesTint:
     blu9x = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class NPCTypes:
+class NPCTypes(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/npc_types/
     """
@@ -415,8 +405,7 @@ class NPCTypes:
     npc_types_tint = relationship("NPCTypesTint", uselist=False)
 
 
-@mapper_registry.mapped
-class Proximities:
+class Proximities(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/npcs/proximities/
     """

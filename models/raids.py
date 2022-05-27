@@ -2,13 +2,12 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
 
-from meta import mapper_registry
+from meta import Base
 from .characters import CharacterData
 from .groups import GroupId
 
 
-@mapper_registry.mapped
-class RaidDetails:
+class RaidDetails(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/raids/raid_details/
     """
@@ -26,8 +25,7 @@ class RaidDetails:
     raid_members = relationship("RaidMembers")
 
 
-@mapper_registry.mapped
-class RaidLeaders:
+class RaidLeaders(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/raids/raid_leaders/
     """
@@ -54,8 +52,7 @@ class RaidLeaders:
     """Mentor Percent: 0 = None, 100 = Max"""
 
 
-@mapper_registry.mapped
-class RaidMembers:
+class RaidMembers(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/raids/raid_members/
     """

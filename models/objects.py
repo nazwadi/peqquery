@@ -1,14 +1,13 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
-from meta import mapper_registry
 
+from meta import Base
 from .zone import Zone
 from .items import Items
 
 
-@mapper_registry.mapped
-class Object:
+class Object(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/objects/object/
     """
@@ -27,7 +26,7 @@ class Object:
     zpos = Column(mysql.FLOAT, nullable=False, default=0)
     """Z Coordinate"""
     heading = Column(mysql.FLOAT, nullable=False, default=0)
-    """Heading Coordiante"""
+    """Heading Coordinate"""
     itemid = Column(mysql.INTEGER(display_width=11), ForeignKey(Items.id),
                     nullable=False, default=0)
     """Item Identifier (see https://docs.eqemu.io/schema/items/items/)"""
@@ -76,8 +75,7 @@ class Object:
     items = relationship("Items")
 
 
-@mapper_registry.mapped
-class ObjectContents:
+class ObjectContents(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/objects/object_contents/
     """

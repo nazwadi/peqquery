@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 from sqlalchemy import text
 
 
@@ -24,6 +24,6 @@ def drop_chance_of_item_by_id(engine: object, it_id: int) -> str:
     WHERE s.enabled = '1' AND i.id ='19285' AND z.min_status < '1'
     ORDER BY 7 DESC
     """)
-    with engine.connect() as conn:
-        res = conn.execute(stmt)
+    with Session(engine) as session:
+        res = session.execute(stmt)
         return res

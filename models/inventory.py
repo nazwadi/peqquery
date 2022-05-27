@@ -2,12 +2,11 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
 
-from meta import mapper_registry
+from meta import Base
 from .items import Items
 
 
-@mapper_registry.mapped
-class Inventory:
+class Inventory(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/inventory/inventory/
     """
@@ -50,8 +49,7 @@ class Inventory:
     """Relationship Type: One-to-One, Local Key: itemid, Relates to Table: items, Foreign Key: id"""
 
 
-@mapper_registry.mapped
-class InventorySnapshots:
+class InventorySnapshots(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/inventory/inventory_snapshots/
     """
@@ -92,8 +90,7 @@ class InventorySnapshots:
     """Ornamentation Hero's Forge Model"""
 
 
-@mapper_registry.mapped
-class InventoryVersions:
+class InventoryVersions(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/inventory/inventory_versions/
     """

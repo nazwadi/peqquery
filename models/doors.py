@@ -2,12 +2,11 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
 
-from meta import mapper_registry
+from meta import Base
 from .items import Items
 
 
-@mapper_registry.mapped
-class Doors:
+class Doors(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/doors/doors/
 

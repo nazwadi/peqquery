@@ -1,10 +1,10 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from meta import mapper_registry
+
+from meta import Base
 
 
-@mapper_registry.mapped
-class Grid:
+class Grid(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/grids/grid/
     """
@@ -15,8 +15,7 @@ class Grid:
     type2 = Column(mysql.INTEGER(display_width=10), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class GridEntries:
+class GridEntries(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/grids/grid_entries/
     """

@@ -2,13 +2,12 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
 
-from meta import mapper_registry
+from meta import Base
 from .zone import Zone
 from .items import Items
 
 
-@mapper_registry.mapped
-class GroundSpawns:
+class GroundSpawns(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/ground-spawns/ground_spawns/
     """

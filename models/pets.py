@@ -1,14 +1,13 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
-from meta import mapper_registry
 
+from meta import Base
 from .npcs import NPCTypes
 from .items import Items
 
 
-@mapper_registry.mapped
-class Pets:
+class Pets(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/pets/pets/
     """
@@ -38,8 +37,7 @@ class Pets:
     npc_types = relationship("NPCTypes", uselist=False)
 
 
-@mapper_registry.mapped
-class PetsBeastlordData:
+class PetsBeastlordData(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/pets/pets_beastlord_data/
     """
@@ -53,8 +51,7 @@ class PetsBeastlordData:
     face = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class PetsEquipmentSet:
+class PetsEquipmentSet(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/pets/pets_equipmentset/
     """
@@ -69,8 +66,7 @@ class PetsEquipmentSet:
     pets_equipmentset_entries = relationship("PetsEquipmentSetEntries")
 
 
-@mapper_registry.mapped
-class PetsEquipmentSetEntries:
+class PetsEquipmentSetEntries(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/pets/pets_equipmentset_entries/
     """

@@ -1,13 +1,11 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import relationship
 
-from meta import mapper_registry
+from meta import Base
 from .items import Items
 
 
-@mapper_registry.mapped
-class Tributes:
+class Tributes(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tributes/tributes/
     """
@@ -19,8 +17,7 @@ class Tributes:
     isguild = Column(mysql.TINYINT(display_width=4), nullable=False, primary_key=True, default=0)  # 0 = False, 1 = True
 
 
-@mapper_registry.mapped
-class TributeLevels:
+class TributeLevels(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tributes/tribute_levels/
     """

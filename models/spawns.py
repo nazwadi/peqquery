@@ -2,11 +2,10 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
 
-from meta import mapper_registry
+from meta import Base
 
 
-@mapper_registry.mapped
-class RespawnTimes:
+class RespawnTimes(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/spawns/respawn_times/
     """
@@ -21,8 +20,7 @@ class RespawnTimes:
     """Instance Identifier (see https://docs.eqemu.io/schema/instances/instance_list/)"""
 
 
-@mapper_registry.mapped
-class Spawn2:
+class Spawn2(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/spawns/spawn2/
     """
@@ -69,8 +67,7 @@ class Spawn2:
     """Relationship Type: Has-Many, Local Key: spawngroupID, Relates to Table: spawnentry, Foreign Key: spawngroupID"""
 
 
-@mapper_registry.mapped
-class SpawnGroup:
+class SpawnGroup(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/spawns/spawngroup/
     """
@@ -106,8 +103,7 @@ class SpawnGroup:
     """Relationship Type: One-to-One, Local Key: id, Relates to Table: spawn2, Foreign Key: spawngroupID"""
 
 
-@mapper_registry.mapped
-class SpawnEntry:
+class SpawnEntry(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/spawns/spawnentry/
     """
@@ -132,8 +128,7 @@ class SpawnEntry:
     """Relationship Type: One-to-One, Local Key: npcID, Relates to Table: npc_types, Foreign Key: id"""
 
 
-@mapper_registry.mapped
-class SpawnConditions:
+class SpawnConditions(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/spawns/spawn_conditions/
     """
@@ -150,8 +145,7 @@ class SpawnConditions:
     """Name"""
 
 
-@mapper_registry.mapped
-class SpawnConditionValues:
+class SpawnConditionValues(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/spawns/spawn_condition_values/
     """
@@ -166,8 +160,7 @@ class SpawnConditionValues:
     """Instance Identifier (see https://docs.eqemu.io/schema/instances/instance_list/)"""
 
 
-@mapper_registry.mapped
-class SpawnEvents:
+class SpawnEvents(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/spawns/spawn_events/
     """

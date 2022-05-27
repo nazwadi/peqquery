@@ -2,15 +2,14 @@ from sqlalchemy import Column, ForeignKey, text
 from sqlalchemy.orm import relationship
 from sqlalchemy.dialects import mysql
 
-from meta import mapper_registry
+from meta import Base
 from .account import Account
 from .items import Items
 from .characters import CharacterData
 from .zone import Zone
 
 
-@mapper_registry.mapped
-class BannedIPs:
+class BannedIPs(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/banned_ips/
     """
@@ -21,8 +20,7 @@ class BannedIPs:
     """Ban reason"""
 
 
-@mapper_registry.mapped
-class BugReports:
+class BugReports(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/bug_reports/
     """
@@ -96,8 +94,7 @@ class BugReports:
     account = relationship("Account", back_populates="bug_reports")
 
 
-@mapper_registry.mapped
-class Bugs:
+class Bugs(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/bugs/
     """
@@ -130,8 +127,7 @@ class Bugs:
     """Account Status of Reporter (see https://docs.eqemu.io/server/player/status-levels)"""
 
 
-@mapper_registry.mapped
-class ChatChannels:
+class ChatChannels(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/chatchannels/
     """
@@ -146,8 +142,7 @@ class ChatChannels:
     """Minimum Status (see https://docs.eqemu.io/server/player/status-levels)"""
 
 
-@mapper_registry.mapped
-class CommandSettings:
+class CommandSettings(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/command_settings/
     """
@@ -160,8 +155,7 @@ class CommandSettings:
     """Aliases"""
 
 
-@mapper_registry.mapped
-class DBVersion:
+class DBVersion(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/db_version/
     """
@@ -172,8 +166,7 @@ class DBVersion:
     """Bots Version (only exists if bots are enabled on your server)"""
 
 
-@mapper_registry.mapped
-class DiscoveredItems:
+class DiscoveredItems(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/discovered_items/
     """
@@ -190,8 +183,7 @@ class DiscoveredItems:
 
 
 '''
-@mapper_registry.mapped
-class DiscordWebhooks:
+class DiscordWebhooks(Base):
     """
     New - does not seem to exist in default db
     
@@ -206,8 +198,7 @@ class DiscordWebhooks:
 '''
 
 
-@mapper_registry.mapped
-class EQTime:
+class EQTime(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/eqtime/
     """
@@ -226,8 +217,7 @@ class EQTime:
     """Real Time; Primary Key is not actually defined in SQL"""
 
 
-@mapper_registry.mapped
-class EventLog:
+class EventLog(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/eventlog/
     """
@@ -254,8 +244,7 @@ class EventLog:
     """Description"""
 
 
-@mapper_registry.mapped
-class GMIPs:
+class GMIPs(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/gm_ips/
     """
@@ -268,8 +257,7 @@ class GMIPs:
     """IP Address (see https://docs.eqemu.io/schema/account/account_ip/)"""
 
 
-@mapper_registry.mapped
-class Hackers:
+class Hackers(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/hackers/
     """
@@ -288,8 +276,7 @@ class Hackers:
     """Date Timestamp"""
 
 
-@mapper_registry.mapped
-class IPExemptions:
+class IPExemptions(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/ip_exemptions/
     """
@@ -302,8 +289,7 @@ class IPExemptions:
     """Exemption Amount"""
 
 
-@mapper_registry.mapped
-class LevelExpMods:
+class LevelExpMods(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/level_exp_mods/
     """
@@ -316,8 +302,7 @@ class LevelExpMods:
     """AA Experience Modifier: 0.5 = 50%, 1 = 100%, 1.5 = 150%"""
 
 
-@mapper_registry.mapped
-class LogSysCategories:
+class LogSysCategories(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/logsys_categories/
     """
@@ -334,8 +319,7 @@ class LogSysCategories:
     """Log to GMSay: 0 = False, 1 = True"""
 
 
-@mapper_registry.mapped
-class NameFilter:
+class NameFilter(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/name_filter/
     """
@@ -346,8 +330,7 @@ class NameFilter:
     """Name"""
 
 
-@mapper_registry.mapped
-class PerlEventExportSettings:
+class PerlEventExportSettings(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/perl_event_export_settings/
     """
@@ -368,8 +351,7 @@ class PerlEventExportSettings:
     """Export Event: 0 = False, 1 = True"""
 
 
-@mapper_registry.mapped
-class Petitions:
+class Petitions(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/petitions/
     """
@@ -408,8 +390,7 @@ class Petitions:
     """Sent Time UNIX Timestamp"""
 
 
-@mapper_registry.mapped
-class ProfanityList:
+class ProfanityList(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/profanity_list/
     """
@@ -418,8 +399,7 @@ class ProfanityList:
     """Word; Primary Key is not actually defined in SQL"""
 
 
-@mapper_registry.mapped
-class Reports:
+class Reports(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/reports/
     """
@@ -434,8 +414,7 @@ class Reports:
     """Reported Text"""
 
 
-@mapper_registry.mapped
-class SayLink:
+class SayLink(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/saylink/
     """
@@ -446,8 +425,7 @@ class SayLink:
     """Phrase"""
 
 
-@mapper_registry.mapped
-class StartZones:
+class StartZones(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/start_zones/
     """
@@ -491,8 +469,7 @@ class StartZones:
     """Relationship Type: One-to-One, Local Key: zone_id, Relates to Table: zone, Foreign Key: zoneidnumber"""
 
 
-@mapper_registry.mapped
-class StartingItems:
+class StartingItems(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/starting_items/
 
@@ -532,8 +509,7 @@ class StartingItems:
     """Relationship Type: One-to-One, Local Key: itemid, Relates to Table: items, Foreign Key: id"""
 
 
-@mapper_registry.mapped
-class Variables:
+class Variables(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/variables/
     """
@@ -548,8 +524,7 @@ class Variables:
     """Timestamp"""
 
 
-@mapper_registry.mapped
-class VeteranRewardTemplates:
+class VeteranRewardTemplates(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/admin/veteran_reward_templates/
     """

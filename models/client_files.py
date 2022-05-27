@@ -1,11 +1,10 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
 
-from meta import mapper_registry
+from meta import Base
 
 
-@mapper_registry.mapped
-class BaseData:
+class BaseData(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/client-files/base_data/
     """
@@ -23,8 +22,7 @@ class BaseData:
     end_fac = Column(mysql.DOUBLE, nullable=False, default=None)
 
 
-@mapper_registry.mapped
-class DbStr:
+class DbStr(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/client-files/db_str/
     """
@@ -34,8 +32,7 @@ class DbStr:
     value = Column(mysql.TEXT, nullable=False, default=None)
 
 
-@mapper_registry.mapped
-class SkillCaps:
+class SkillCaps(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/client-files/skill_caps/
     """

@@ -2,12 +2,11 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
 
-from meta import mapper_registry
+from meta import Base
 from .spells import SpellsNew
 
 
-@mapper_registry.mapped
-class Items:
+class Items(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/items/items/
 
@@ -320,8 +319,7 @@ class Items:
 #    tribute_levels = relationship("TributeLevels", back_populates="items")
 
 
-@mapper_registry.mapped
-class ItemTick:
+class ItemTick(Base):
     """
     EQEMU Docs URL:  https://docs.eqemu.io/schema/items/item_tick/
     """

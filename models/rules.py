@@ -1,11 +1,11 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
-from meta import mapper_registry
+
+from meta import Base
 
 
-@mapper_registry.mapped
-class RuleSets:
+class RuleSets(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/rules/rule_sets/
     """
@@ -20,8 +20,7 @@ class RuleSets:
     """Relationship Type: Has-Many, Local Key: ruleset_id, Relates to Table: rule_values, Foreign Key: ruleset_id"""
 
 
-@mapper_registry.mapped
-class RuleValues:
+class RuleValues(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/rules/rule_values/
     """

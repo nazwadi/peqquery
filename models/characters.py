@@ -1,12 +1,11 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 
-from meta import mapper_registry
+from meta import Base
 from .items import Items
 
 
-@mapper_registry.mapped
-class CharCreateCombinations:
+class CharCreateCombinations(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/char_create_combinations/
     """
@@ -20,8 +19,7 @@ class CharCreateCombinations:
     expansions_req = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharCreatePointAllocations:
+class CharCreatePointAllocations(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/char_create_point_allocations/
     """
@@ -43,8 +41,7 @@ class CharCreatePointAllocations:
     alloc_cha = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=None)
 
 
-@mapper_registry.mapped
-class CharRecipeList:
+class CharRecipeList(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/char_recipe_list/
     """
@@ -54,8 +51,7 @@ class CharRecipeList:
     madecount = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterActivities:
+class CharacterActivities(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_activities/
     """
@@ -67,8 +63,7 @@ class CharacterActivities:
     completed = Column(mysql.TINYINT(display_width=1), nullable=True, default=0)
 
 
-@mapper_registry.mapped
-class CharacterAltCurrency:
+class CharacterAltCurrency(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_alt_currency/
     """
@@ -78,8 +73,7 @@ class CharacterAltCurrency:
     amount = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=None)
 
 
-@mapper_registry.mapped
-class CharacterAlternateAbilities:
+class CharacterAlternateAbilities(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_alternate_abilities/
     """
@@ -90,8 +84,7 @@ class CharacterAlternateAbilities:
     charges = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterAuras:
+class CharacterAuras(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_auras/
     """
@@ -101,8 +94,7 @@ class CharacterAuras:
     spell_id = Column(mysql.INTEGER(display_width=10), nullable=False, default=None)
 
 
-@mapper_registry.mapped
-class CharacterBandolier:
+class CharacterBandolier(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_bandolier/
     """
@@ -115,8 +107,7 @@ class CharacterBandolier:
     bandolier_name = Column(mysql.VARCHAR(32), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterBind:
+class CharacterBind(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_bind/
     """
@@ -132,8 +123,7 @@ class CharacterBind:
     heading = Column(mysql.FLOAT, nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterBuffs:
+class CharacterBuffs(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_buffs/
     """
@@ -159,8 +149,7 @@ class CharacterBuffs:
     instrument_mod = Column(mysql.INTEGER(display_width=10), nullable=False, default=10)
 
 
-@mapper_registry.mapped
-class CharacterCorpses:
+class CharacterCorpses(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_corpses/
     """
@@ -216,8 +205,7 @@ class CharacterCorpses:
     wc_9 = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
 
 
-@mapper_registry.mapped
-class CharacterCorpseItems:
+class CharacterCorpseItems(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_corpse_items/
     """
@@ -248,8 +236,7 @@ class CharacterCorpseItems:
     """Item Attuned: 0 = False, 1 = True"""
 
 
-@mapper_registry.mapped
-class CharacterCurrency:
+class CharacterCurrency(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_currency/
     """
@@ -273,8 +260,7 @@ class CharacterCurrency:
     career_ebon_crystals = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterData:
+class CharacterData(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_data/
     """
@@ -385,8 +371,7 @@ class CharacterData:
     deleted_at = Column(mysql.DATETIME, nullable=True, default=None)
 
 
-@mapper_registry.mapped
-class CharacterDisciplines:
+class CharacterDisciplines(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_disciplines/
     """
@@ -396,8 +381,7 @@ class CharacterDisciplines:
     disc_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterEnabledTasks:
+class CharacterEnabledTasks(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_enabledtasks/
     """
@@ -406,8 +390,7 @@ class CharacterEnabledTasks:
     taskid = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, primary_key=True, default=0)
 
 
-@mapper_registry.mapped
-class CharacterExpModifiers:
+class CharacterExpModifiers(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_exp_modifiers/
     """
@@ -419,8 +402,7 @@ class CharacterExpModifiers:
 
 
 """
-@mapper_registry.mapped
-class CharacterExpeditionLockouts:
+class CharacterExpeditionLockouts(Base):
     '''
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_expedition_lockouts/
     '''
@@ -438,8 +420,7 @@ class CharacterExpeditionLockouts:
 """""
 
 
-@mapper_registry.mapped
-class CharacterInspectMessages:
+class CharacterInspectMessages(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_inspect_messages/
     """
@@ -448,8 +429,7 @@ class CharacterInspectMessages:
     inspect_message = Column(mysql.VARCHAR(255), nullable=False)
 
 
-@mapper_registry.mapped
-class CharacterInstanceSafereturns:
+class CharacterInstanceSafereturns(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_instance_safereturns/
     """
@@ -466,8 +446,7 @@ class CharacterInstanceSafereturns:
     safe_heading = Column(mysql.FLOAT, nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterItemRecast:
+class CharacterItemRecast(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_item_recast/
     """
@@ -477,8 +456,7 @@ class CharacterItemRecast:
     timestamp = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterLanguages:
+class CharacterLanguages(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_languages/
     """
@@ -489,8 +467,7 @@ class CharacterLanguages:
     value = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterLeadershipAbilities:
+class CharacterLeadershipAbilities(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_leadership_abilities/
     """
@@ -500,8 +477,7 @@ class CharacterLeadershipAbilities:
     rank = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterMaterial:
+class CharacterMaterial(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_material/
     """
@@ -516,8 +492,7 @@ class CharacterMaterial:
     color = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterMemmedSpells:
+class CharacterMemmedSpells(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_memmed_spells/
     """
@@ -527,8 +502,7 @@ class CharacterMemmedSpells:
     spell_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterPetBuffs:
+class CharacterPetBuffs(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_pet_buffs/
     """
@@ -546,8 +520,7 @@ class CharacterPetBuffs:
     instrument_mod = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=10)
 
 
-@mapper_registry.mapped
-class CharacterPetInfo:
+class CharacterPetInfo(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_pet_info/
     """
@@ -563,8 +536,7 @@ class CharacterPetInfo:
     taunting = Column(mysql.TINYINT(display_width=1), nullable=False, default=1)
 
 
-@mapper_registry.mapped
-class CharacterPetInventory:
+class CharacterPetInventory(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_pet_inventory/
     """
@@ -575,8 +547,7 @@ class CharacterPetInventory:
     item_id = Column(mysql.INTEGER(display_width=11), nullable=False, default=None)
 
 
-@mapper_registry.mapped
-class CharacterPotionBelt:
+class CharacterPotionBelt(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_potionbelt/
     """
@@ -587,8 +558,7 @@ class CharacterPotionBelt:
     icon = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterSkills:
+class CharacterSkills(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_skills/
     """
@@ -599,8 +569,7 @@ class CharacterSkills:
     value = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterSpells:
+class CharacterSpells(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_spells/
     """
@@ -611,8 +580,7 @@ class CharacterSpells:
     spell_id = Column(mysql.SMALLINT(display_width=11, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterTasks:
+class CharacterTasks(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_tasks/
     """
@@ -622,8 +590,7 @@ class CharacterTasks:
     slot = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class CharacterTaskTimers:
+class CharacterTaskTimers(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_task_timers/
     """
@@ -638,8 +605,7 @@ class CharacterTaskTimers:
     expire_time = Column(mysql.DATETIME, nullable=False, default="CURRENT_TIMESTAMP")
 
 
-@mapper_registry.mapped
-class CharacterTribute:
+class CharacterTribute(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/character_tribute/
     """
@@ -650,8 +616,7 @@ class CharacterTribute:
     tribute = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class Friends:
+class Friends(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/friends/
     """
@@ -661,8 +626,7 @@ class Friends:
     name = Column(mysql.VARCHAR(64), nullable=False, primary_key=True, default=None)
 
 
-@mapper_registry.mapped
-class KeyRing:
+class KeyRing(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/keyring/
     """
@@ -675,8 +639,7 @@ class KeyRing:
     """Primary Key is not actually defined in sql"""
 
 
-@mapper_registry.mapped
-class LFGuild:
+class LFGuild(Base):
     """
     EQEMU Docs UR: https://docs.eqemu.io/schema/characters/lfguild/
     """
@@ -692,8 +655,7 @@ class LFGuild:
     timeposted = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class Mail:
+class Mail(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/mail/
     """
@@ -710,8 +672,7 @@ class Mail:
     status = Column(mysql.TINYINT(display_width=4), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class PlayerTitlesets:
+class PlayerTitlesets(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/characters/player_titlesets/
     """

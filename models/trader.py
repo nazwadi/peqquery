@@ -1,10 +1,10 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from meta import mapper_registry
+
+from meta import Base
 
 
-@mapper_registry.mapped
-class Trader:
+class Trader(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/trader/trader/
     """
@@ -23,8 +23,7 @@ class Trader:
     """Slot Identifier (see https://docs.eqemu.io/server/inventory/inventory-slots)"""
 
 
-@mapper_registry.mapped
-class TraderAudit:
+class TraderAudit(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/trader/trader_audit/
     """

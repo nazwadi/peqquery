@@ -1,11 +1,10 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from sqlalchemy.orm import relationship
-from meta import mapper_registry
+
+from meta import Base
 
 
-@mapper_registry.mapped
-class LoginAccounts:
+class LoginAccounts(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/loginserver/login_accounts/
     """
@@ -21,8 +20,7 @@ class LoginAccounts:
     updated_at = Column(mysql.DATETIME, nullable=True, default="CURRENT_TIMESTAMP")
 
 
-@mapper_registry.mapped
-class LoginApiTokens:
+class LoginApiTokens(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/loginserver/login_api_tokens/
     """
@@ -35,8 +33,7 @@ class LoginApiTokens:
     updated_at = Column(mysql.DATETIME, nullable=True, default="CURRENT_TIMESTAMP")
 
 
-@mapper_registry.mapped
-class LoginServerAdmins:
+class LoginServerAdmins(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/loginserver/login_server_admins/
     """
@@ -52,8 +49,7 @@ class LoginServerAdmins:
     registration_ip_address = Column(mysql.VARCHAR(80), nullable=False, default=None)
 
 
-@mapper_registry.mapped
-class LoginWorldServers:
+class LoginWorldServers(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/loginserver/login_world_servers/
     """

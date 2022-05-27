@@ -2,12 +2,11 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
 
-from meta import mapper_registry
+from meta import Base
 from .npcs import NPCTypes
 
 
-@mapper_registry.mapped
-class SpellsNew:
+class SpellsNew(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/spells/spells_new/
     """
@@ -256,8 +255,7 @@ class SpellsNew:
     blocked_spells = relationship("BlockedSpells")
 
 
-@mapper_registry.mapped
-class BlockedSpells:
+class BlockedSpells(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/spells/blocked_spells/
     """
@@ -289,8 +287,7 @@ class BlockedSpells:
     """Blocked spells description"""
 
 
-@mapper_registry.mapped
-class SpellBuckets:
+class SpellBuckets(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/spells/spell_buckets/
     """
@@ -304,8 +301,7 @@ class SpellBuckets:
     """Data Bucket Value"""
 
 
-@mapper_registry.mapped
-class SpellGlobals:
+class SpellGlobals(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/spells/spell_globals/
     """
@@ -321,8 +317,7 @@ class SpellGlobals:
     """Quest Global Value"""
 
 
-@mapper_registry.mapped
-class DamageShieldTypes:
+class DamageShieldTypes(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/spells/damageshieldtypes/
     """
@@ -334,8 +329,7 @@ class DamageShieldTypes:
     """Damage Shield Type (see https://docs.eqemu.io/server/spells/damage-shield-types)"""
 
 
-@mapper_registry.mapped
-class Auras:
+class Auras(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/spells/auras/
     """

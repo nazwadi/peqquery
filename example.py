@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from dotenv import dotenv_values
-from sqlalchemy import create_engine, text, MetaData, Table
+from sqlalchemy import create_engine
 from sqlalchemy.sql import select
 
 from models import *

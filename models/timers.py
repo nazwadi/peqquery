@@ -1,11 +1,10 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
 
-from meta import mapper_registry
+from meta import Base
 
 
-@mapper_registry.mapped
-class Timers:
+class Timers(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/timers/timers/
     """

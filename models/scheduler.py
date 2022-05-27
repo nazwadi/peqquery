@@ -1,11 +1,11 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
-from meta import mapper_registry
+
+from meta import Base
 
 
-@mapper_registry.mapped
-class ServerScheduledEvents:
+class ServerScheduledEvents(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/scheduler/server_scheduled_events/
     """

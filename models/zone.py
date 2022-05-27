@@ -1,13 +1,12 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
-from meta import mapper_registry
 
+from meta import Base
 from .graveyards import Graveyard
 from .rules import RuleSets
 
 
-#@mapper_registry.mapped
-class Launcher:
+class Launcher(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/zone/launcher/#schema
     """
@@ -18,8 +17,7 @@ class Launcher:
     """Dynamics"""
 
 
-@mapper_registry.mapped
-class LauncherZones:
+class LauncherZones(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/zone/launcher_zones/#schema
     """
@@ -32,8 +30,7 @@ class LauncherZones:
     """Port"""
 
 
-@mapper_registry.mapped
-class ZoneFlags:
+class ZoneFlags(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/zone/zone_flags/#schema
     """
@@ -44,8 +41,7 @@ class ZoneFlags:
     """Zone Identifier (see https://docs.eqemu.io/server/zones/zone-list)"""
 
 
-@mapper_registry.mapped
-class Zone:
+class Zone(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/zone/zone/
     """
@@ -238,8 +234,7 @@ class Zone:
     min_laval_damage = Column(mysql.INTEGER(display_width=11), nullable=False, default=10)
 
 
-@mapper_registry.mapped
-class ZonePoints:
+class ZonePoints(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/zone/zone_points/
     """

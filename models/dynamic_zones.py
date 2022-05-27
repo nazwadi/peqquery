@@ -1,10 +1,10 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from meta import mapper_registry
+
+from meta import Base
 
 
-@mapper_registry.mapped
-class DynamicZones:
+class DynamicZones(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/dynamic-zones/dynamic_zones/
     """
@@ -34,8 +34,7 @@ class DynamicZones:
     has_zone_in = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class DynamicZoneMembers:
+class DynamicZoneMembers(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/dynamic-zones/dynamic_zone_members/
     """

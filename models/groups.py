@@ -1,12 +1,11 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
-from meta import mapper_registry
 
+from meta import Base
 from .characters import CharacterData
 
 
-@mapper_registry.mapped
-class GroupId:
+class GroupId(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/groups/group_id/
     """
@@ -22,8 +21,7 @@ class GroupId:
     """Is Mercenary: 0 = False, 1 = True"""
 
 
-@mapper_registry.mapped
-class GroupLeaders:
+class GroupLeaders(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/groups/group_leaders/
     """

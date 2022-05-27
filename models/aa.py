@@ -2,14 +2,11 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.dialects import mysql
 
-from meta import mapper_registry
+from meta import Base
 from .spells import SpellsNew
 
-Base = declarative_base()
 
-
-@mapper_registry.mapped
-class AAAbility:
+class AAAbility(Base):
     __tablename__ = "aa_ability"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, primary_key=True)
     """Unique AA Identifier"""
@@ -40,8 +37,7 @@ class AAAbility:
     reset_on_death = Column(mysql.TINYINT(display_width=4), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class AARanks:
+class AARanks(Base):
     __tablename__ = "aa_ranks"
     id = Column(mysql.INTEGER(display_width=10, unsigned=True), ForeignKey(AAAbility.id),
                 nullable=False, primary_key=True)
@@ -73,8 +69,7 @@ class AARanks:
     """Next Rank Identifier"""
 
 
-@mapper_registry.mapped
-class AARankEffects:
+class AARankEffects(Base):
     __tablename__ = "aa_rank_effects"
     rank_id = Column(mysql.INTEGER(display_width=10, unsigned=True), ForeignKey(AARanks.id),
                      nullable=False, primary_key=True)
@@ -89,8 +84,7 @@ class AARankEffects:
     """Second Base Value"""
 
 
-@mapper_registry.mapped
-class AARankPrereqs:
+class AARankPrereqs(Base):
     __tablename__ = "aa_rank_prereqs"
     rank_id = Column(mysql.INTEGER(display_width=10, unsigned=True), ForeignKey(AARanks.id),
                      nullable=False, primary_key=True)

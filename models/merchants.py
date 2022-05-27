@@ -1,11 +1,10 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
-from meta import mapper_registry
+from meta import Base
 
 
-@mapper_registry.mapped
-class MerchantList:
+class MerchantList(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/merchants/merchantlist/
     """
@@ -27,8 +26,7 @@ class MerchantList:
     items = relationship("Items", back_populates="merchantlist")
 
 
-@mapper_registry.mapped
-class MerchantListTemp:
+class MerchantListTemp(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/merchants/merchantlist_temp/
     """

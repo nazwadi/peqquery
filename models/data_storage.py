@@ -1,10 +1,10 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from meta import mapper_registry
+
+from meta import Base
 
 
-@mapper_registry.mapped
-class DataBuckets:
+class DataBuckets(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/data-storage/data_buckets/
     """
@@ -16,8 +16,7 @@ class DataBuckets:
     expires = Column(mysql.INTEGER(display_width=11, unsigned=True), nullable=True, default=0)
 
 
-@mapper_registry.mapped
-class QuestGlobals:
+class QuestGlobals(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/data-storage/quest_globals/
     """

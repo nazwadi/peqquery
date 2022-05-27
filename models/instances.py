@@ -1,11 +1,11 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
-from meta import mapper_registry
+
+from meta import Base
 
 
-@mapper_registry.mapped
-class InstanceList:
+class InstanceList(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/instances/instance_list/
     """
@@ -31,8 +31,7 @@ class InstanceList:
 #    zone_relationship = relationship("Zone")
 
 
-@mapper_registry.mapped
-class InstanceListPlayer:
+class InstanceListPlayer(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/instances/instance_list_player/
     """
@@ -43,4 +42,3 @@ class InstanceListPlayer:
     charid = Column(mysql.INTEGER(display_width=11, unsigned=True), ForeignKey("CharacterData.id"),
                     nullable=False, primary_key=True, default=0)
     """Character Identifier (see https://docs.eqemu.io/schema/characters/character_data/)"""
-

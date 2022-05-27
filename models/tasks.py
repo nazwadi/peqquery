@@ -1,10 +1,10 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from meta import mapper_registry
+
+from meta import Base
 
 
-@mapper_registry.mapped
-class CompletedSharedTaskActivityState:
+class CompletedSharedTaskActivityState(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tasks/completed_shared_task_activity_state/
     """
@@ -16,8 +16,7 @@ class CompletedSharedTaskActivityState:
     completed_time = Column(mysql.DATETIME, nullable=False, default=None)
 
 
-@mapper_registry.mapped
-class CompletedSharedTaskMembers:
+class CompletedSharedTaskMembers(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tasks/completed_shared_task_members/
     """
@@ -27,8 +26,7 @@ class CompletedSharedTaskMembers:
     is_leader = Column(mysql.TINYINT(display_width=4), nullable=True, default=None)
 
 
-@mapper_registry.mapped
-class CompletedSharedTasks:
+class CompletedSharedTasks(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tasks/completed_shared_tasks/
     """
@@ -41,8 +39,7 @@ class CompletedSharedTasks:
     is_locked = Column(mysql.TINYINT(display_width=1), nullable=True, default=None)
 
 
-@mapper_registry.mapped
-class CompletedTasks:
+class CompletedTasks(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tasks/completed_tasks/
     """
@@ -53,8 +50,7 @@ class CompletedTasks:
     activityid = Column(mysql.INTEGER(display_width=11), nullable=False, primary_key=True, default=0)
 
 
-@mapper_registry.mapped
-class GoalLists:
+class GoalLists(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tasks/goallists/
     """
@@ -65,8 +61,7 @@ class GoalLists:
                    primary_key=True, default=0)
 
 
-@mapper_registry.mapped
-class SharedTaskActivityState:
+class SharedTaskActivityState(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tasks/shared_task_activity_state/
     """
@@ -78,8 +73,7 @@ class SharedTaskActivityState:
     completed_time = Column(mysql.DATETIME, nullable=True, default=None)
 
 
-@mapper_registry.mapped
-class SharedTaskDynamicZones:
+class SharedTaskDynamicZones(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tasks/shared_task_dynamic_zones/
     """
@@ -89,8 +83,7 @@ class SharedTaskDynamicZones:
                              primary_key=True, default=None)
 
 
-@mapper_registry.mapped
-class SharedTaskMembers:
+class SharedTaskMembers(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tasks/shared_task_members/
     """
@@ -100,8 +93,7 @@ class SharedTaskMembers:
     is_leader = Column(mysql.TINYINT(display_width=4), nullable=True, default=None)
 
 
-@mapper_registry.mapped
-class SharedTasks:
+class SharedTasks(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tasks/shared_tasks/
     """
@@ -114,8 +106,7 @@ class SharedTasks:
     is_locked = Column(mysql.TINYINT(display_width=1), nullable=True, default=None)
 
 
-@mapper_registry.mapped
-class TaskActivities:
+class TaskActivities(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tasks/task_activities/
     """
@@ -137,8 +128,7 @@ class TaskActivities:
     optional = Column(mysql.TINYINT(display_width=1), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class Tasks:
+class Tasks(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tasks/tasks/
     """
@@ -168,8 +158,7 @@ class Tasks:
     request_timer_seconds = Column(mysql.INTEGER(display_width=10, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class TaskSets:
+class TaskSets(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tasks/tasksets/
     """

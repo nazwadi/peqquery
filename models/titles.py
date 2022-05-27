@@ -1,10 +1,10 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from meta import mapper_registry
+
+from meta import Base
 
 
-@mapper_registry.mapped
-class Titles:
+class Titles(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/titles/titles/
     """

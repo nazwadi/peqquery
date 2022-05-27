@@ -2,14 +2,13 @@ from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
 
-from meta import mapper_registry
+from meta import Base
 from .items import Items
 from .zone import Zone
 from .npcs import NPCTypes
 
 
-@mapper_registry.mapped
-class Fishing:
+class Fishing(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tradeskills/fishing/
     """
@@ -41,8 +40,7 @@ class Fishing:
     """Relationship Type: One-to-One, Local Key: npc_id, Relates to Table: npc_types, Foreign Key: id"""
 
 
-@mapper_registry.mapped
-class Forage:
+class Forage(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tradeskills/forage/
     """
@@ -68,8 +66,7 @@ class Forage:
     """Relationship Type: One-to-One, Local Key: zoneid, Relates to Table: zone, Foreign Key: zoneidnumber"""
 
 
-@mapper_registry.mapped
-class TradeskillRecipe:
+class TradeskillRecipe(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tradeskills/tradeskill_recipe/
     """
@@ -102,8 +99,7 @@ class TradeskillRecipe:
     content_flags_disabled = Column(mysql.VARCHAR(100), nullable=True, default=None)
 
 
-@mapper_registry.mapped
-class TradeskillRecipeEntries:
+class TradeskillRecipeEntries(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/tradeskills/tradeskill_recipe_entries/
     """

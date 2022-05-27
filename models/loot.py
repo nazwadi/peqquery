@@ -1,13 +1,12 @@
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects import mysql
 from sqlalchemy.orm import relationship
-from meta import mapper_registry
 
+from meta import Base
 from models.items import Items
 
 
-@mapper_registry.mapped
-class Loottable:
+class Loottable(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/loot/loottable/
 
@@ -39,8 +38,7 @@ class Loottable:
     loottable_entries = relationship("LoottableEntries")
 
 
-@mapper_registry.mapped
-class Lootdrop:
+class Lootdrop(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/loot/lootdrop/
 
@@ -62,8 +60,7 @@ class Lootdrop:
     content_flags_disabled = Column(mysql.VARCHAR(100), nullable=True)
 
 
-@mapper_registry.mapped
-class LootdropEntries:
+class LootdropEntries(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/loot/lootdrop_entries/
 
@@ -100,8 +97,7 @@ class LootdropEntries:
     lootdrop = relationship("Lootdrop")
 
 
-@mapper_registry.mapped
-class LoottableEntries:
+class LoottableEntries(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/loot/loottable_entries/
 
@@ -134,8 +130,7 @@ class LoottableEntries:
     """
 
 
-@mapper_registry.mapped
-class GlobalLoot:
+class GlobalLoot(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/loot/global_loot/
     """

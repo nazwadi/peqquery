@@ -1,10 +1,10 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from meta import mapper_registry
+
+from meta import Base
 
 
-@mapper_registry.mapped
-class CharacterExpeditionLockouts:
+class CharacterExpeditionLockouts(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/expeditions/character_expedition_lockouts/
     """
@@ -20,8 +20,7 @@ class CharacterExpeditionLockouts:
     from_expedition_uuid = Column(mysql.VARCHAR(36), nullable=False, default=None)
 
 
-@mapper_registry.mapped
-class Expeditions:
+class Expeditions(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/expeditions/expeditions/
     """
@@ -33,8 +32,7 @@ class Expeditions:
     is_locked = Column(mysql.TINYINT(display_width=3, unsigned=True), nullable=False, default=0)
 
 
-@mapper_registry.mapped
-class ExpeditionLockouts:
+class ExpeditionLockouts(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/expeditions/expedition_lockouts/
     """

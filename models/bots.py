@@ -1,10 +1,9 @@
 from sqlalchemy import Column
 from sqlalchemy.dialects import mysql
-from meta import mapper_registry
+from meta import Base
 
 
-@mapper_registry.mapped
-class BotBuffs:
+class BotBuffs(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_buffs/
     """
@@ -12,8 +11,7 @@ class BotBuffs:
     # TODO
 
 
-@mapper_registry.mapped
-class BotData:
+class BotData(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_data/
     """
@@ -21,8 +19,7 @@ class BotData:
     # TODO
 
 
-@mapper_registry.mapped
-class BotGroups:
+class BotGroups(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_groups/
     """
@@ -30,8 +27,7 @@ class BotGroups:
     # TODO
 
 
-@mapper_registry.mapped
-class BotGroupMembers:
+class BotGroupMembers(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_group_members/
     """
@@ -39,8 +35,7 @@ class BotGroupMembers:
     # TODO
 
 
-@mapper_registry.mapped
-class BotHealRotations:
+class BotHealRotations(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_heal_rotations/
     """
@@ -48,8 +43,7 @@ class BotHealRotations:
     # TODO
 
 
-@mapper_registry.mapped
-class BotHealRotationMembers:
+class BotHealRotationMembers(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_heal_rotation_members/
     """
@@ -57,8 +51,7 @@ class BotHealRotationMembers:
     # TODO
 
 
-@mapper_registry.mapped
-class BotHealRotationTargets:
+class BotHealRotationTargets(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_heal_rotation_targets/
     """
@@ -66,8 +59,7 @@ class BotHealRotationTargets:
     # TODO
 
 
-@mapper_registry.mapped
-class BotInspectMessages:
+class BotInspectMessages(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_inspect_messages/
     """
@@ -75,8 +67,7 @@ class BotInspectMessages:
     # TODO
 
 
-@mapper_registry.mapped
-class BotInspectMessages:
+class BotInspectMessages(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_inventories/
     """
@@ -84,8 +75,7 @@ class BotInspectMessages:
     # TODO
 
 
-@mapper_registry.mapped
-class BotOwnerOptions:
+class BotOwnerOptions(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_owner_options/
     """
@@ -93,8 +83,7 @@ class BotOwnerOptions:
     # TODO
 
 
-@mapper_registry.mapped
-class BotPets:
+class BotPets(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_pets/
     """
@@ -102,8 +91,7 @@ class BotPets:
     # TODO
 
 
-@mapper_registry.mapped
-class BotPetBuffs:
+class BotPetBuffs(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_pet_buffs/
     """
@@ -111,8 +99,7 @@ class BotPetBuffs:
     # TODO
 
 
-@mapper_registry.mapped
-class BotPetInventories:
+class BotPetInventories(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_pet_inventories/
     """
@@ -120,8 +107,7 @@ class BotPetInventories:
     # TODO
 
 
-@mapper_registry.mapped
-class BotSpellsEntries:
+class BotSpellsEntries(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_spells_entries/
     """
@@ -129,8 +115,7 @@ class BotSpellsEntries:
     # TODO
 
 
-@mapper_registry.mapped
-class BotSpellCastingChances:
+class BotSpellCastingChances(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_spell_casting_chances/
     """
@@ -138,8 +123,7 @@ class BotSpellCastingChances:
     # TODO
 
 
-@mapper_registry.mapped
-class BotStances:
+class BotStances(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_stances/
     """
@@ -147,8 +131,7 @@ class BotStances:
     # TODO
 
 
-@mapper_registry.mapped
-class BotTimers:
+class BotTimers(Base):
     """
     EQEMU Docs URL: https://docs.eqemu.io/schema/bots/bot_timers/
     """
