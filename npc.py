@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 import argparse
+import logging
+import sys
+
 from dotenv import dotenv_values
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
@@ -13,10 +16,21 @@ config = dotenv_values(".env")
 
 
 def get_npc(npc_name: str, zone_short_name: str, show_sql: bool) -> CursorResult:
+    """
+    Returns a record for all NPCs matching a specific name.  If a zone
+    short name is specified, the query will be filtered by NPCs that spawn
+    in that zone.
+
+    @param npc_name
+    @param zone_short_name
+    @param show_sql
+
+    @return the query result cursor
+    """
     with engine.connect() as conn:
         npc_name = npc_name.replace(" ", "_")
         if zone_short_name is not None:
-            stmt = select(NPCTypes.name, NPCTypes.loottable_id, Zone.short_name) \
+            stmt = select(NPCTypes.name, NPCTypes.loottable_id, SpawnEntry.spawngroupID, Zone.long_name, Zone.short_name) \
                 .join(SpawnEntry, NPCTypes.id == SpawnEntry.npcID) \
                 .join(Spawn2, SpawnEntry.spawngroupID == Spawn2.spawngroupID) \
                 .join(Zone, Spawn2.zone == Zone.short_name) \
@@ -25,7 +39,7 @@ def get_npc(npc_name: str, zone_short_name: str, show_sql: bool) -> CursorResult
                 .where(NPCTypes.race != '127') \
                 .where(NPCTypes.race != '240')
         else:
-            stmt = select(NPCTypes.name, NPCTypes.loottable_id, Zone.short_name) \
+            stmt = select(NPCTypes.name, NPCTypes.loottable_id, SpawnEntry.spawngroupID, Zone.long_name, Zone.short_name) \
                 .join(SpawnEntry, NPCTypes.id == SpawnEntry.npcID) \
                 .join(Spawn2, SpawnEntry.spawngroupID == Spawn2.spawngroupID) \
                 .join(Zone, Spawn2.zone == Zone.short_name) \
@@ -33,13 +47,12 @@ def get_npc(npc_name: str, zone_short_name: str, show_sql: bool) -> CursorResult
                 .where(NPCTypes.race != '127') \
                 .where(NPCTypes.race != '240')
         if show_sql:
-            print(stmt)
-            print()
+            logging.info(stmt)
         res = conn.execute(stmt)
     return res
 
 
-def get_npc_known_loot_by_name(loot_table_id: str) -> None:
+def get_npc_known_loot_table_id(loot_table_id: str) -> None:
     """
     Print known loot
 
@@ -117,6 +130,11 @@ if __name__ == "__main__":
     connection_string += config["PEQ_DB_DATABASE"]
     engine = create_engine(connection_string, future=True)
 
+    # Init the example's logger theme
+    handler = logging.StreamHandler(sys.stderr)
+    logging.getLogger().addHandler(handler)
+    logging.getLogger().setLevel(logging.INFO)
+
     parser = argparse.ArgumentParser(description="Provide an NPC name")
     parser.add_argument('--name', action='store', type=str, help="name of the NPC")
     parser.add_argument('--zone', action='store', type=str, help="zone short name the NPC is found in")
@@ -128,7 +146,8 @@ if __name__ == "__main__":
             result = get_npc(options.name, options.zone, options.show_sql)
         else:
             result = get_npc(options.name, None, options.show_sql)
+        print("{:<10} {:45} {:<25} {:<25} {:<25} {:<25}".format("Index", "NPC_Name", "Loottable_ID", "SpawnGroup_ID", "Zone_Short_Name", "Zone_Long_Name"))
         for index, value in enumerate(result):
-            print(index, value)
+            print("{:<10} {:<45} {:<25} {:<25} {:<25} {:<25}".format(index, value['name'], value['loottable_id'], value['spawngroupID'], value['short_name'], value['long_name']))
     if options.loot_table_id:
-        get_npc_known_loot_by_name(options.loot_table_id)
+        get_npc_known_loot_table_id(options.loot_table_id)

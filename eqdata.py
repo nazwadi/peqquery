@@ -1,0 +1,146 @@
+""""
+
+"""
+from collections import namedtuple
+
+PlayerClasses = namedtuple('PlayerClasses', ['number', 'bitmask', 'name', 'spell_list_id'])
+player_classes = [
+      PlayerClasses(number=1, bitmask=1, name='WAR', spell_list_id=None),
+      PlayerClasses(number=2, bitmask=2, name='CLR', spell_list_id=1),
+      PlayerClasses(number=3, bitmask=4, name='PAL', spell_list_id=8),
+      PlayerClasses(number=4, bitmask=8, name='RNG', spell_list_id=10),
+      PlayerClasses(number=5, bitmask=16, name='SHD', spell_list_id=9),
+      PlayerClasses(number=6, bitmask=32, name='DRU', spell_list_id=7),
+      PlayerClasses(number=7, bitmask=64, name='MNK', spell_list_id=None),
+      PlayerClasses(number=8, bitmask=128, name='BRD', spell_list_id=11),
+      PlayerClasses(number=9, bitmask=256, name='ROG', spell_list_id=None),
+      PlayerClasses(number=10, bitmask=512, name='SHM', spell_list_id=6),
+      PlayerClasses(number=11, bitmask=1024, name='NEC', spell_list_id=3),
+      PlayerClasses(number=12, bitmask=2048, name='WIZ', spell_list_id=2),
+      PlayerClasses(number=13, bitmask=4096, name='MAG', spell_list_id=4),
+      PlayerClasses(number=14, bitmask=8192, name='ENC', spell_list_id=5),
+      PlayerClasses(number=15, bitmask=16384, name='BST', spell_list_id=12),
+      PlayerClasses(number=16, bitmask=32768, name='BER', spell_list_id=None),
+]
+
+PlayerRaces = namedtuple('PlayerRaces', ['id', 'bitmask', 'name'])
+player_races = [
+    PlayerRaces(id=1, bitmask=1, name="HUM"),
+    PlayerRaces(id=2, bitmask=2, name="BAR"),
+    PlayerRaces(id=3, bitmask=4, name="ERU"),
+    PlayerRaces(id=4, bitmask=8, name="ELF"),
+    PlayerRaces(id=5, bitmask=16, name="HIE"),
+    PlayerRaces(id=6, bitmask=32, name="DEF"),
+    PlayerRaces(id=7, bitmask=64, name="HEF"),
+    PlayerRaces(id=8, bitmask=128, name="DWF"),
+    PlayerRaces(id=9, bitmask=256, name="TRL"),
+    PlayerRaces(id=10, bitmask=512, name="OGR"),
+    PlayerRaces(id=11, bitmask=1024, name="HFL"),
+    PlayerRaces(id=12, bitmask=2048, name="GNM"),
+    PlayerRaces(id=128, bitmask=4096, name="IKS"),
+    PlayerRaces(id=130, bitmask=8192, name="VAH"),
+    PlayerRaces(id=330, bitmask=16384, name="FRG"),
+    PlayerRaces(id=522, bitmask=32768, name="DRK"),
+]
+
+ItemSlots = namedtuple('ItemSlots', ['id', 'bitmask', 'name'])
+item_slots = [
+    ItemSlots(id=0, bitmask=1, name="Charm"),
+    ItemSlots(id=1, bitmask=2, name="Ear 1"),
+    ItemSlots(id=2, bitmask=4, name="Head"),
+    ItemSlots(id=3, bitmask=8, name="Face"),
+    ItemSlots(id=4, bitmask=16, name="Ear 2"),
+    ItemSlots(id=5, bitmask=32, name="Neck"),
+    ItemSlots(id=6, bitmask=64, name="Shoulder"),
+    ItemSlots(id=7, bitmask=128, name="Arms"),
+    ItemSlots(id=8, bitmask=256, name="Back"),
+    ItemSlots(id=9, bitmask=512, name="Bracer 1"),
+    ItemSlots(id=10, bitmask=1024, name="Bracer 2"),
+    ItemSlots(id=11, bitmask=2048, name="Range"),
+    ItemSlots(id=12, bitmask=4096, name="Hands"),
+    ItemSlots(id=13, bitmask=8192, name="Primary"),
+    ItemSlots(id=14, bitmask=16384, name="Secondary"),
+    ItemSlots(id=15, bitmask=32768, name="Ring 1"),
+    ItemSlots(id=16, bitmask=65536, name="Ring 2"),
+    ItemSlots(id=17, bitmask=131072, name="Chest"),
+    ItemSlots(id=18, bitmask=262144, name="Legs"),
+    ItemSlots(id=19, bitmask=524288, name="Feet"),
+    ItemSlots(id=20, bitmask=1048576, name="Waist"),
+    ItemSlots(id=21, bitmask=2097152, name="Powersource"),
+    ItemSlots(id=22, bitmask=4194304, name="Ammo")
+]
+
+ItemTypes = namedtuple('ItemTypes', ['id', 'type'])
+item_types = [
+    ItemTypes(id=0, type='1HS'),
+    ItemTypes(id=1, type='2HS'),
+    ItemTypes(id=2, type='Piercing'),
+    ItemTypes(id=3, type='1HB'),
+    ItemTypes(id=4, type='2HB'),
+    ItemTypes(id=5, type='Archery'),
+    ItemTypes(id=6, type='Unused'),
+    ItemTypes(id=7, type='Throwing'),
+    ItemTypes(id=8, type='Shield'),
+    ItemTypes(id=9, type='Unused'),
+    ItemTypes(id=10, type='Armor'),
+    ItemTypes(id=11, type='Involves Tradeskills (Not sure how)'),
+    ItemTypes(id=12, type='Lock Picking'),
+    ItemTypes(id=13, type='Unused'),
+    ItemTypes(id=14, type='Food (Right Click to use)'),
+    ItemTypes(id=15, type='Drink (Right Click to use)'),
+    ItemTypes(id=16, type='Light Source'),
+    ItemTypes(id=17, type='Common Inventory Item'),
+    ItemTypes(id=18, type='Bandage (Bind Wound)'),
+    ItemTypes(id=19, type='Throwing Casting Items (Explosive potions etc)'),
+    ItemTypes(id=20, type='Spell/Song'),
+    ItemTypes(id=21, type='Potions'),
+    ItemTypes(id=22, type='Fletched Arrows?'),
+    ItemTypes(id=23, type='Wind Instruments'),
+    ItemTypes(id=24, type='Stringed Instruments'),
+    ItemTypes(id=25, type='Brass Instruments'),
+    ItemTypes(id=26, type='Drum Instruments'),
+    ItemTypes(id=27, type='Ammo (In most cases, Arrows)'),
+    ItemTypes(id=28, type='Unused'),
+    ItemTypes(id=29, type='Jewelry Items (As far as I can tell)'),
+    ItemTypes(id=30, type='Unused'),
+    ItemTypes(id=31, type='Usually Readable Notes and Scrolls i beleive this to display [This note is Rolled Up/Unrolled]'),
+    ItemTypes(id=32, type='Usually Readable Books i beleive this to display [This Book is Closed/Open]'),
+    ItemTypes(id=33, type='Keys'),
+    ItemTypes(id=34, type='Odd Items (Not sure what they are for)'),
+    ItemTypes(id=35, type='2H Pierce'),
+    ItemTypes(id=36, type='Fishing Poles'),
+    ItemTypes(id=37, type='Fishing Bait'),
+    ItemTypes(id=38, type='Alcoholic Beverages'),
+    ItemTypes(id=39, type='More Keys'),
+    ItemTypes(id=40, type='Compasses'),
+    ItemTypes(id=41, type='Unused'),
+    ItemTypes(id=42, type='Poisons'),
+    ItemTypes(id=43, type='Unused'),
+    ItemTypes(id=44, type='Unused'),
+    ItemTypes(id=45, type='H2H (Hand to Hand)'),
+    ItemTypes(id=46, type='Unused'),
+    ItemTypes(id=47, type='Unused'),
+    ItemTypes(id=48, type='Unused'),
+    ItemTypes(id=49, type='Unused'),
+    ItemTypes(id=50, type='Unused'),
+    ItemTypes(id=51, type='Unused'),
+    ItemTypes(id=52, type='Charms'),
+    ItemTypes(id=53, type='Dyes'),
+    ItemTypes(id=54, type='Augments'),
+    ItemTypes(id=55, type='Augment Solvents'),
+    ItemTypes(id=56, type='Augment Distillers'),
+    ItemTypes(id=58, type='Fellowship Banner Materials'),
+    ItemTypes(id=60, type='Cultural Armor Manuals, unsure how this works exactly.'),
+    ItemTypes(id=63, type='New Curencies like Orum')
+]
+
+ItemSizes = namedtuple('ItemSizes', ['id', 'size'])
+item_sizes = [
+    ItemSizes(id=0, size="TINY"),
+    ItemSizes(id=1, size="SMALL"),
+    ItemSizes(id=2, size="MEDIUM"),
+    ItemSizes(id=3, size="LARGE"),
+    ItemSizes(id=4, size="GIANT"),
+    ItemSizes(id=5, size="GIGANTIC")
+    ]
+
