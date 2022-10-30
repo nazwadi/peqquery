@@ -14,16 +14,17 @@ from eqdata import player_races
 from eqdata import item_slots
 from eqdata import item_types
 from eqdata import item_sizes
+
 from models import *
 
 config = dotenv_values(".env")
 
 
-def get_slot_list(bitmask: int) -> list:
+def decode_slot_bitmask(bitmask: int) -> list:
+    """
+
+    """
     slots = list()
-    if bitmask == 65535:
-        slots.append("ALL")
-        return slots
     index = 0
     while bitmask >= 1:
         if bitmask % 2:
@@ -32,44 +33,40 @@ def get_slot_list(bitmask: int) -> list:
         index = index + 1
     return slots
 
-def get_class_list(bitmask: int) -> list:
-    classes = list()
+
+def decode_race_class_bitmask(bitmask: int, list_namedtuples: list) -> list:
+    """
+    Returns a list of race/class abbreviations given a bitmask and list of
+    namedtuples
+
+    @param bitmask
+    @param list_namedtuples
+    """
+    ret = list()
     if bitmask == 65535:
-        classes.append("ALL")
-        return classes
+        ret.append("ALL")
+        return ret
     index = 0
     while bitmask >= 1:
         if bitmask % 2:
-            classes.append(player_classes[index].name)
+            ret.append(list_namedtuples[index].name)
         bitmask = bitmask // 2
         index = index + 1
-    return classes
+    return ret
 
 
-def get_race_list(bitmask: int) -> list:
-    races = list()
-    if bitmask == 65535:
-        races.append("ALL")
-        return races
-    index = 0
-    while bitmask >= 1:
-        if bitmask % 2:
-            races.append(player_races[index].name)
-        bitmask = bitmask // 2
-        index = index + 1
-    return races
-
-
-def find_item_by_id(id: str, show_sql: bool) -> CursorResult:
+def find_item_by_id(item_id: str, show_sql: bool) -> CursorResult:
     """
     Find an item by its item id
+    @param item_id
+    @param show_sql
     """
     with engine.connect() as conn:
-        stmt = select(Items).where(Items.id == id)
+        stmt = select(Items).where(Items.id == item_id)
         if show_sql:
             logging.info(stmt)
-        res = conn.execute(stmt)
-    return res
+        result = conn.execute(stmt)
+        return result
 
 
 def print_item_info(res: CursorResult):
@@ -86,22 +83,31 @@ def print_item_info(res: CursorResult):
         print("MAGIC ITEM")
     if i.classes:
         print("Classes: ", end='')
-        for index, value in enumerate(get_class_list(i.classes)):
+        for index, value in enumerate(decode_race_class_bitmask(i.classes, player_classes)):
             print(value, end=' ')
     if i.races:
         print("\nRaces: ", end='')
-        for index, value in enumerate(get_race_list(i.races)):
+        for index, value in enumerate(decode_race_class_bitmask(i.races, player_races)):
             print(value, end=' ')
     if i.slots:
         print("\nSlot: ", end='')
-        for index, value in enumerate(get_slot_list(i.slots)):
+        for index, value in enumerate(decode_slot_bitmask(i.slots)):
             print(value, end=' ')
     if i.itemtype:
         print("\nItem Type: ", end='')
         print(item_types[i.itemtype].type)
     if i.size:
         print("\nSize: ", end='')
-        print(item_sizes[i.size].size)
+        print(item_sizes[i.size].size, end='\t')
+    if i.ac:
+        print("AC: {}".format(i.ac))
+    if i.weight:
+        print("Weight: {}".format(i.weight))
+
+    # TODO: Display item stats
+
+    """Price in Copper"""
+    print("Value: {} cp".format(i.price))
 
 
 if __name__ == "__main__":
