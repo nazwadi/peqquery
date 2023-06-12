@@ -102,7 +102,11 @@ def print_item_info(res: CursorResult):
     if i.ac:
         print("AC: {}".format(i.ac))
     if i.weight:
-        print("Weight: {}".format(i.weight))
+        print("Weight: {}".format(i.weight), end='\t')
+    if i.hp:
+        print("HP: {}".format(i.hp))
+    if i.mana:
+        print("Mana: {}".format(i.mana))
 
     # TODO: Display item stats
 

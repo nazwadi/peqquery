@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import logging
+import math
 import sys
 
 from dotenv import dotenv_values
@@ -52,6 +53,15 @@ def get_npc(npc_name: str, zone_short_name: str, show_sql: bool) -> CursorResult
     return res
 
 
+def get_npc_special_attacks(npc_name: str, zone_short_name: str) -> CursorResult:
+    with engine.connect() as conn:
+        npc_name = npc_name.replace(" ", "_")
+        stmt = select(NPCTypes.special_abilities) \
+            .where(NPCTypes.name == npc_name)
+        res = conn.execute(stmt)
+    return res
+
+
 def get_npc_known_loot_table_id(loot_table_id: str) -> None:
     """
     Print known loot
@@ -75,6 +85,45 @@ def get_npc_known_loot_table_id(loot_table_id: str) -> None:
                 item_name = session.execute(stmt).first()[0]
                 print("* [[{}]]".format(item_name, lde.item_id, lde.chance))
             print()
+
+
+def get_npc_merchant_list(merchant_id: int) -> list:
+    with Session(engine) as session:
+        stmt = select(MerchantList, Items.Name, Items.price, Items.icon)\
+               .join(MerchantList.items).where(MerchantList.merchantid == merchant_id).order_by(Items.Name)
+        db_result = session.execute(stmt)
+        merchant_list = list()
+        for row in db_result:
+            merchant_list.append(row)
+    return merchant_list
+
+
+def display_mediawiki_merchant_list(merchant_list: list) -> None:
+    """Displays Mediawiki Text for an NPC Page Merchant List"""
+    string_list = list()
+    string_list.append("\n=== Items Sold ===\n")
+    string_list.append("{{MerchantTableHeader}}")
+    string_list.append("{{MerchantHeaderRow|hasIcon=true}}\n")
+    with Session(engine) as session:
+        for mlist_entry in merchant_list:
+            # Item price is stored in units of Copper
+            platinum = math.floor(mlist_entry.price / 1000)
+            gold = math.floor((mlist_entry.price % 1000) / 100)
+            silver = math.floor((mlist_entry.price % 100) / 10)
+            copper = mlist_entry.price % 10
+
+            string_list.append("{{MerchantRow")
+            string_list.append("|iconNumber={}".format(mlist_entry.icon))
+            string_list.append("|itemName=[[{}]]".format(mlist_entry.Name))
+            string_list.append("|platinum={}".format(platinum))
+            string_list.append("|gold={}".format(gold))
+            string_list.append("|silver={}".format(silver))
+            string_list.append("|copper={}".format(copper))
+            string_list.append("|level=--")
+            string_list.append("}}")
+    string_list.append("{{MerchantTableFooter}}")
+    page_text = '\n'.join(string_list)
+    print(page_text)
 
 
 def get_npc_loot_by_name(npc_name: str) -> None:
@@ -140,6 +189,8 @@ if __name__ == "__main__":
     parser.add_argument('--zone', action='store', type=str, help="zone short name the NPC is found in")
     parser.add_argument('--show-sql', action='store_true', help="show SQL Query")
     parser.add_argument('--loot-table-id', action='store', type=str, help="find loot table by loot id")
+    parser.add_argument('--special-attacks', action='store_true', help="get npc special attacks")
+    parser.add_argument('--merchant_id', action='store', type=int, help="find merchant list by merchant id")
     options = parser.parse_args()
     if options.name:
         if options.zone:
@@ -151,3 +202,10 @@ if __name__ == "__main__":
             print("{:<10} {:<45} {:<25} {:<25} {:<25} {:<25}".format(index, value['name'], value['loottable_id'], value['spawngroupID'], value['short_name'], value['long_name']))
     if options.loot_table_id:
         get_npc_known_loot_table_id(options.loot_table_id)
+    if options.special_attacks:
+        result = get_npc_special_attacks(options.name, options.zone)
+        for index, value in enumerate(result):
+            print(value)
+    if options.merchant_id:
+        mlist = get_npc_merchant_list(options.merchant_id)
+        display_mediawiki_merchant_list(mlist)

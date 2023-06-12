@@ -17,7 +17,7 @@ class Items(Base):
     id = Column(mysql.INTEGER(display_width=11, unsigned=True),
                 nullable=False, primary_key=True, autoincrement="auto", default=0)
     minstatus = Column(mysql.SMALLINT(display_width=5), nullable=False, default=0)
-    Name = Column(mysql.VARCHAR(64), nullable=False)
+    Name: str = Column(mysql.VARCHAR(64), nullable=False)
     aagi = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
     ac = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
     accuracy = Column(mysql.INTEGER(display_width=11), nullable=False, default=0)
